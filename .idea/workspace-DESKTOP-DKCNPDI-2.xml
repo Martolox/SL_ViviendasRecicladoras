@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0e3211cb-072a-4f33-b11a-3d9d14cff36b" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Record" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2iWzpmduKZaW5Lgl9T3RVKgwnmn" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.FrmLogin.executor": "Run",
+    "Application.FrmPanel.executor": "Run",
+    "Application.FrmPanelViejo.executor": "Run",
+    "Application.FrmPersonal.executor": "Run",
+    "Application.main.executor": "Run",
+    "JUnit.TestApi.TestListarDuenioPorId.executor": "Run",
+    "JUnit.TestApi.TestRegistrarDuenio.executor": "Run",
+    "JUnit.TestApi.executor": "Run",
+    "JUnit.TestCampania.TestListarCampaniaPorId.executor": "Run",
+    "JUnit.TestCampania.TestListarCampanias.executor": "Run",
+    "JUnit.TestCampania.TestModificarCampania.executor": "Run",
+    "JUnit.TestCampania.TestRegistrarCampania.executor": "Run",
+    "JUnit.TestDuenio.TestEliminarDuenio.executor": "Run",
+    "JUnit.TestDuenio.TestListarDuenioPorId.executor": "Run",
+    "JUnit.TestDuenio.TestListarDuenios.executor": "Run",
+    "JUnit.TestDuenio.TestModificarDuenio.executor": "Run",
+    "JUnit.TestDuenio.executor": "Run",
+    "JUnit.TestInscripcion.TestEliminarInscripcion.executor": "Run",
+    "JUnit.TestInscripcion.TestListarInscripcionPorId.executor": "Run",
+    "JUnit.TestInscripcion.TestListarInscripciones.executor": "Run",
+    "JUnit.TestOrden.TestEliminarOrden.executor": "Run",
+    "JUnit.TestOrden.TestListarOrdenPorId.executor": "Run",
+    "JUnit.TestOrden.TestListarOrdenes.executor": "Run",
+    "JUnit.TestOrden.TestModificarOrden.executor": "Run",
+    "JUnit.TestOrden.TestRegistrarOrden.executor": "Run",
+    "JUnit.TestPersonal.TestEliminarPersonal.executor": "Run",
+    "JUnit.TestPersonal.TestEliminarPersonal_DocLongErronea.executor": "Run",
+    "JUnit.TestPersonal.TestEliminarPersonal_DocNoEncontrado.executor": "Run",
+    "JUnit.TestPersonal.TestListarPersonal.executor": "Run",
+    "JUnit.TestPersonal.TestListarPersonalPorId.executor": "Run",
+    "JUnit.TestPersonal.TestModificarPersonal.executor": "Run",
+    "JUnit.TestPersonal.TestModificarPersonal_DocNoEncontrado.executor": "Run",
+    "JUnit.TestPersonal.TestRegistrarPersonal.executor": "Run",
+    "JUnit.TestPersonal.TestRegistrarPersonal_DocLongErronea.executor": "Run",
+    "JUnit.TestPersonal.TestRegistrarPersonal_DocNoNumerico.executor": "Run",
+    "JUnit.TestPersonal.TestRegistrarPersonal_FaltanDatos.executor": "Run",
+    "JUnit.TestPersonal.executor": "Run",
+    "JUnit.TestRegistros.CiudadanoCreaUnaVivienda.executor": "Run",
+    "JUnit.TestRegistros.SeAbreVentanaLogin.executor": "Run",
+    "JUnit.TestRegistros.SeCreaUnRegistroDeVivienda.executor": "Run",
+    "JUnit.TestRegistros.executor": "Coverage",
+    "JUnit.TestUbicacion.TestListarUbicacionPorId.executor": "Run",
+    "JUnit.TestUbicacion.TestRegistrarUbicacion.executor": "Run",
+    "JUnit.TestUbicacion.TestValidarUbicacion.executor": "Run",
+    "JUnit.TestUbicacion.executor": "Run",
+    "JUnit.TestVivienda.TestEliminarVivienda.executor": "Run",
+    "JUnit.TestVivienda.TestListarViviendaPorId.executor": "Run",
+    "JUnit.TestVivienda.TestListarViviendas.executor": "Run",
+    "JUnit.TestVivienda.TestModificarVivienda.executor": "Run",
+    "JUnit.TestVivienda.TestRegistrarVivienda.executor": "Run",
+    "Maven.Viviendas [clean].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Octavio/OneDrive/Documentos/V1291 - Seminario de Lenguajes/SDL - Viviendas/Viviendas/src/main/java/org/unrn/backend/api",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "jvm.logging"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.unrn.backend.resources" />
+      <recent name="org.unrn.backend.prueba" />
+      <recent name="org.unrn" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Octavio\OneDrive\Documentos\V1291 - Seminario de Lenguajes\SDL - Viviendas\Viviendas\src\main\java\org\unrn\backend\api" />
+      <recent name="C:\Users\Octavio\OneDrive\Documentos\V1291 - Seminario de Lenguajes\SDL - Viviendas\Viviendas\src\main\java\org\unrn\frontend\http" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Octavio\OneDrive\Documentos\V1291 - Seminario de Lenguajes\SDL - Viviendas\Viviendas\src\main\java\org\unrn\daos" />
+      <recent name="D:\Octavio\OneDrive\Documentos\V1291 - Seminario de Lenguajes\SDL - Viviendas\Viviendas\src\main\resources" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.unrn.backend.daos" />
+      <recent name="org.unrn.entities" />
+      <recent name="org.unrn.backend.controllers" />
+      <recent name="org.unrn.backend.dtos" />
+      <recent name="org.unrn.backend.resources" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.TestUbicacion.TestRegistrarUbicacion">
+    <configuration name="FrmPanel" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.unrn.frontend.FrmPanel" />
+      <module name="Viviendas" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.unrn.frontend.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestInscripcion.TestEliminarInscripcion" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Viviendas" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.unrn.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.unrn" />
+      <option name="MAIN_CLASS_NAME" value="org.unrn.TestInscripcion" />
+      <option name="METHOD_NAME" value="TestEliminarInscripcion" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestInscripcion.TestListarInscripciones" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Viviendas" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.unrn.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.unrn" />
+      <option name="MAIN_CLASS_NAME" value="org.unrn.TestInscripcion" />
+      <option name="METHOD_NAME" value="TestListarInscripciones" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestUbicacion.TestRegistrarUbicacion" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Viviendas" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.unrn.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.unrn" />
+      <option name="MAIN_CLASS_NAME" value="org.unrn.TestUbicacion" />
+      <option name="METHOD_NAME" value="TestRegistrarUbicacion" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestUbicacion.TestValidarUbicacion" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Viviendas" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.unrn.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.unrn" />
+      <option name="MAIN_CLASS_NAME" value="org.unrn.TestUbicacion" />
+      <option name="METHOD_NAME" value="TestValidarUbicacion" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.TestUbicacion.TestRegistrarUbicacion" />
+        <item itemvalue="Application.FrmPanel" />
+        <item itemvalue="JUnit.TestUbicacion.TestValidarUbicacion" />
+        <item itemvalue="JUnit.TestInscripcion.TestListarInscripciones" />
+        <item itemvalue="JUnit.TestInscripcion.TestEliminarInscripcion" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0e3211cb-072a-4f33-b11a-3d9d14cff36b" name="Changes" comment="" />
+      <created>1719621555570</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719621555570</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Viviendas$TestPersonal.ic" NAME="TestPersonal Coverage Results" MODIFIED="1722268041584" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.unrn.backend.daos.PersonalDao</FILTER>
+      <FILTER>org.unrn.backend.controllers.ControladorPersonal</FILTER>
+      <FILTER>org.unrn.backend.resources.RecursoPersonal</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Viviendas$TestRegistros.ic" NAME="TestRegistros Coverage Results" MODIFIED="1719642308171" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.unrn.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Viviendas$TestDuenio.ic" NAME="TestDuenio Coverage Results" MODIFIED="1721972387984" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.unrn.*</FILTER>
+    </SUITE>
+  </component>
+</project>
