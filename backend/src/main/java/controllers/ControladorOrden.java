@@ -44,6 +44,21 @@ public class ControladorOrden {
         return listaDto;
     }
 
+    public String listarOrdenesMC(String dni) throws SQLException {
+        List<OrdenDto> lista = listarPor(dni);
+        String txt = "";
+        int i = 1;
+        for (OrdenDto o : lista) {
+            System.out.println(o);
+            if (o.getEstado().equals("EN_EJECUCION") || o.getEstado().equals("PENDIENTE")) {
+                txt += String.format("Orden %d - Fecha:%s - Estado:%s", i, o.getFecha(), o.getEstado());
+                i++;
+                System.out.println(txt);
+            }
+        }
+        return txt;
+    }
+
     public void modificar(int id, String duenio, String personal, String estado, float plastico,
                           float papel, float vidrio, float metal, boolean vehiculoPesado, String observacion)
             throws SQLException {

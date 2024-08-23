@@ -17,6 +17,9 @@ public class CampaniaDao {
     PreparedStatement ps;
     ResultSet rs;
 
+    public CampaniaDao() {
+    }
+
     public void eliminar(String id) throws SQLException {
         String sql = "DELETE FROM campania WHERE id_campania = ?";
         con = cn.getConnection();

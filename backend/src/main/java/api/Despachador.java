@@ -602,4 +602,19 @@ public class Despachador implements ServidorAPI {
         }
         return respuesta;
     }
+
+    @Override
+    public Respuesta listarOrdenesMC(String dni) {
+        Respuesta respuesta = new Respuesta("OK");
+        try {
+            respuesta.setObj(recursoOrden.listarOrdenesMC(dni));
+        } catch (OrdenFieldInvalidException e) {
+            respuesta.setEstado("BAD_REQUEST " + e);
+        } catch (SQLException e) {
+            respuesta.setEstado("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            respuesta.setEstado("ERROR " + e);
+        }
+        return respuesta;
+    }
 }

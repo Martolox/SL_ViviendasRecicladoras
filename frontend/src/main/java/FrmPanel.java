@@ -65,11 +65,11 @@ public class FrmPanel extends JFrame {
     private JButton btnLimpiarPedido;
     private JButton btnModInsc;
     private JButton btnNuevoPersonal;
+    private JButton btnOrdenesMC;
     private JButton btnRegDuenio;
     private JButton btnRegPedido;
     private JButton btnRegPersonal;
     private JButton btnRegVivienda;
-    private JButton btnVisitasMC;
     private JButton btnVisitasObs;
     private JComboBox<Object> cbxBeneficio;
     private JComboBox<Object> cbxEstado;
@@ -218,7 +218,7 @@ public class FrmPanel extends JFrame {
     }
 
     private void iniciarComponentes() {
-        labels = ResourceBundle.getBundle("lang/lbl", new Locale("es"));
+        labels = ResourceBundle.getBundle("lbl", new Locale.Builder().setLanguage("es").build());
         fntTitulo = new Font("Cambria", Font.BOLD, 18);
         fntLabel = new Font("Roboto", Font.BOLD, 14);
         fntLabel2 = new Font("Times New Roman", Font.BOLD | Font.ITALIC, 14);
@@ -249,11 +249,11 @@ public class FrmPanel extends JFrame {
         btnLimpiarPedido = new JButton();
         btnModInsc = new JButton();
         btnNuevoPersonal = new JButton();
+        btnOrdenesMC = new JButton();
         btnRegDuenio = new JButton();
         btnRegPedido = new JButton();
         btnRegPersonal = new JButton();
         btnRegVivienda = new JButton();
-        btnVisitasMC = new JButton();
         btnVisitasObs = new JButton();
         cbxBeneficio = new JComboBox<>();
         cbxEstado = new JComboBox<>();
@@ -433,7 +433,7 @@ public class FrmPanel extends JFrame {
         jLabel8.setFont(fntLabel);
         jLabel8.setText(labels.getString("tabDuenio.Telefono"));
         btnRegDuenio.setIcon(icoModificar);
-        btnRegDuenio.setText(labels.getString("tabDuenio.RegistrarDuenio"));
+        btnRegDuenio.setText(labels.getString("tabDuenio.BtnRegistrarDuenio"));
         btnRegDuenio.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnRegDuenio.addActionListener(this::btnRegDuenioActionPerformed);
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
@@ -534,23 +534,23 @@ public class FrmPanel extends JFrame {
     }
 
     private void agregarTabVivienda() {
-        jPanel3.setBorder(BorderFactory.createTitledBorder(null, "Registro de vivienda", 0, 0, fntTitulo));
+        jPanel3.setBorder(BorderFactory.createTitledBorder(null, labels.getString("tabVivienda.Titulo"), 0, 0, fntTitulo));
         jLabel10.setIcon(icoBuscar);
         jLabel11.setFont(fntLabel2);
-        jLabel11.setText("  Doc.");
+        jLabel11.setText(labels.getString("tabVivienda.Doc"));
         jLabel12.setFont(fntLabel);
-        jLabel12.setText("Dirección*   ");
+        jLabel12.setText(labels.getString("tabVivienda.Direccion"));
         jLabel13.setFont(fntLabel);
-        jLabel13.setText("Zona");
+        jLabel13.setText(labels.getString("tabVivienda.Zona"));
         jLabel14.setFont(fntLabel);
-        jLabel14.setText("Barrio*");
+        jLabel14.setText(labels.getString("tabVivienda.Barrio"));
         jLabel15.setFont(fntLabel);
-        jLabel15.setText("Ubicación");
+        jLabel15.setText(labels.getString("tabVivienda.Ubicacion"));
         txtDocVivienda.setFocusable(false);
         txtDocVivienda.setEditable(false);
         txtUbicacion.setEditable(false);
         btnRegVivienda.setIcon(icoModificar);
-        btnRegVivienda.setText("Validar Ubicación");
+        btnRegVivienda.setText(labels.getString("tabVivienda.BtnValidarUbicacion"));
         btnRegVivienda.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnRegVivienda.addActionListener(this::btnRegViviendaActionPerformed);
         GroupLayout jPanel1Layout = new GroupLayout(jPanel3);
@@ -637,37 +637,37 @@ public class FrmPanel extends JFrame {
                         .addGap(25, 25, 25)
                         .addComponent(jPanel3, -1, -1, 32767))
                 .addComponent(jLabel16, -2, 0, 32767));
-        jTabbedPane1.addTab("Vivienda", jPanel4);
+        jTabbedPane1.addTab(labels.getString("tabVivienda.Rotulo"), jPanel4);
     }
 
     private void agregarTabInscripciones() {
-        jPanel5.setBorder(BorderFactory.createTitledBorder(null, "Dueños Inscriptos", 2, 0, fntTitulo));
+        jPanel5.setBorder(BorderFactory.createTitledBorder(null, labels.getString("tabInscripciones.Titulo"), 2, 0, fntTitulo));
         jLabel17.setFont(fntLabel2);
-        jLabel17.setText("Doc.");
+        jLabel17.setText(labels.getString("tabInscripciones.Doc"));
         jLabel18.setFont(fntLabel2);
-        jLabel18.setText("Nombre");
+        jLabel18.setText(labels.getString("tabInscripciones.Nombre"));
         jLabel19.setFont(fntLabel2);
-        jLabel19.setText("Apellido");
+        jLabel19.setText(labels.getString("tabInscripciones.Apellido"));
         jLabel20.setFont(fntLabel2);
-        jLabel20.setText("Correo");
+        jLabel20.setText(labels.getString("tabInscripciones.Correo"));
         jLabel21.setFont(fntLabel2);
-        jLabel21.setText("Teléfono");
+        jLabel21.setText(labels.getString("tabInscripciones.Telefono"));
         jLabel22.setFont(fntLabel2);
-        jLabel22.setText("Dirección");
+        jLabel22.setText(labels.getString("tabInscripciones.Direccion"));
         jLabel23.setFont(fntLabel2);
-        jLabel23.setText("Zona");
+        jLabel23.setText(labels.getString("tabInscripciones.Zona"));
         jLabel24.setFont(fntLabel2);
-        jLabel24.setText("Barrio");
+        jLabel24.setText(labels.getString("tabInscripciones.Barrio"));
         btnModInsc.setIcon(icoModificar);
-        btnModInsc.setText("Modificar");
+        btnModInsc.setText(labels.getString("tabInscripciones.BtnModificar"));
         btnModInsc.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnModInsc.addActionListener(this::btnModInscActionPerformed);
         btnEliInsc.setIcon(icoEliminar);
-        btnEliInsc.setText("Eliminar");
+        btnEliInsc.setText(labels.getString("tabInscripciones.BtnEliminar"));
         btnEliInsc.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnEliInsc.addActionListener(this::btnEliInscActionPerformed);
         btnLimpiarInsc.setIcon(icoRenovar);
-        btnLimpiarInsc.setText("Limpiar");
+        btnLimpiarInsc.setText(labels.getString("tabInscripciones.BtnLimpiar"));
         btnLimpiarInsc.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnLimpiarInsc.addActionListener(this::btnLimpiarInscActionPerformed);
         GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
@@ -763,8 +763,20 @@ public class FrmPanel extends JFrame {
                                 .addContainerGap(22, 32767))
         );
         jPanel5.setLayout(jPanel5Layout);
-        tblInscripciones.setModel(new DefaultTableModel(new Object[0][], new String[]{"Id", "Documento", "Nombre",
-                "Apellido", "Correo", "Teléfono", "Direccion", "Zona", "Barrio", "Latitud", "Longitud", "Fecha"}));
+        tblInscripciones.setModel(new DefaultTableModel(new Object[0][], new String[]{
+                labels.getString("tabInscripciones.TblId"),
+                labels.getString("tabInscripciones.TblDocumento"),
+                labels.getString("tabInscripciones.TblNombre"),
+                labels.getString("tabInscripciones.TblApellido"),
+                labels.getString("tabInscripciones.TblCorreo"),
+                labels.getString("tabInscripciones.TblTelefono"),
+                labels.getString("tabInscripciones.TblDireccion"),
+                labels.getString("tabInscripciones.TblZona"),
+                labels.getString("tabInscripciones.TblBarrio"),
+                labels.getString("tabInscripciones.TblLatitud"),
+                labels.getString("tabInscripciones.TblLongitud"),
+                labels.getString("tabInscripciones.TblFecha")
+        }));
         tblInscripciones.setRowHeight(20);
         tblInscripciones.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -773,7 +785,7 @@ public class FrmPanel extends JFrame {
         });
         jScrollPane1.setViewportView(tblInscripciones);
         jLabel25.setIcon(icoBuscar);
-        jLabel25.setText("Buscar");
+        jLabel25.setText(labels.getString("tabInscripciones.Buscar"));
         txtBuscarInsc.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent evt) {
                 txtBuscarInscKeyReleased();
@@ -817,27 +829,27 @@ public class FrmPanel extends JFrame {
                                         .addComponent(jPanel5, -2, 518, -2))
                                 .addComponent(jScrollPane1, -1, 566, 32767))
                         .addGap(25, 25, 25)));
-        jTabbedPane1.addTab("Inscripciones", jPanel6);
+        jTabbedPane1.addTab(labels.getString("tabInscripciones.Rotulo"), jPanel6);
     }
 
     private void agregarTabPersonal() {
-        jPanel7.setBorder(BorderFactory.createTitledBorder(null, "Nuevo personal", 2, 0, fntTitulo));
+        jPanel7.setBorder(BorderFactory.createTitledBorder(null, labels.getString("tabPersonal.Titulo"), 2, 0, fntTitulo));
         jLabel26.setFont(fntLabel2);
-        jLabel26.setText("Nombre");
+        jLabel26.setText(labels.getString("tabPersonal.Nombre"));
         jLabel27.setFont(fntLabel2);
-        jLabel27.setText("Apellido");
+        jLabel27.setText(labels.getString("tabPersonal.Apellido"));
         jLabel28.setFont(fntLabel2);
-        jLabel28.setText("Documento");
+        jLabel28.setText(labels.getString("tabPersonal.Documento"));
         btnRegPersonal.setIcon(icoGuardar);
-        btnRegPersonal.setText("Registrar");
+        btnRegPersonal.setText(labels.getString("tabPersonal.BtnRegistrar"));
         btnRegPersonal.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnRegPersonal.addActionListener(this::btnRegPersonalActionPerformed);
         btnEliPersonal.setIcon(icoEliminar);
-        btnEliPersonal.setText("Eliminar");
+        btnEliPersonal.setText(labels.getString("tabPersonal.BtnEliminar"));
         btnEliPersonal.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnEliPersonal.addActionListener(this::btnEliPersonalActionPerformed);
         btnNuevoPersonal.setIcon(icoNuevo);
-        btnNuevoPersonal.setText("Nuevo");
+        btnNuevoPersonal.setText(labels.getString("tabPersonal.BtnNuevo"));
         btnNuevoPersonal.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnNuevoPersonal.addActionListener(this::btnNuevoPersonalActionPerformed);
         GroupLayout jPanel7Layout = new GroupLayout(jPanel7);
@@ -883,7 +895,12 @@ public class FrmPanel extends JFrame {
                         .addContainerGap(58, 32767))
         );
         jPanel7.setLayout(jPanel7Layout);
-        tblPersonal.setModel(new DefaultTableModel(new Object[0][], new String[]{"Id", "Nombre", "Apellido", "Documento"}));
+        tblPersonal.setModel(new DefaultTableModel(new Object[0][], new String[]{
+                labels.getString("tabPersonal.TblId"),
+                labels.getString("tabPersonal.TblNombre"),
+                labels.getString("tabPersonal.TblApellido"),
+                labels.getString("tabPersonal.TblDocumento")
+        }));
         tblPersonal.setRowHeight(20);
         tblPersonal.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -925,41 +942,41 @@ public class FrmPanel extends JFrame {
                                         .addComponent(jPanel7, -2, -1, -2))
                                 .addComponent(jScrollPane2, -1, 566, 32767))
                         .addGap(25, 25, 25)));
-        jTabbedPane1.addTab("Personal", jPanel8);
+        jTabbedPane1.addTab(labels.getString("tabPersonal.Rotulo"), jPanel8);
     }
 
     private void agregarTabPedidos() {
-        jPanel9.setBorder(BorderFactory.createTitledBorder(null, "Pedidos de Retiro", 2, 0, fntTitulo));
+        jPanel9.setBorder(BorderFactory.createTitledBorder(null, labels.getString("tabPedidos.Titulo"), 2, 0, fntTitulo));
         jLabel30.setFont(fntLabel2);
         jLabel30.setIcon(icoBasura);
-        jLabel30.setText("Plástico");
+        jLabel30.setText(labels.getString("tabPedidos.Plastico"));
         jLabel31.setFont(fntLabel2);
         jLabel31.setText("Kg");
         jLabel32.setFont(fntLabel2);
         jLabel32.setIcon(icoBasura);
-        jLabel32.setText("Papel/Cartón");
+        jLabel32.setText(labels.getString("tabPedidos.Papel"));
         jLabel33.setFont(fntLabel2);
         jLabel33.setText("Kg");
         jLabel34.setFont(fntLabel2);
         jLabel34.setIcon(icoBasura);
-        jLabel34.setText("Vidrio");
+        jLabel34.setText(labels.getString("tabPedidos.Vidrio"));
         jLabel35.setFont(fntLabel2);
         jLabel35.setText("Kg");
         jLabel36.setFont(fntLabel2);
         jLabel36.setIcon(icoBasura);
-        jLabel36.setText("Metal");
+        jLabel36.setText(labels.getString("tabPedidos.Metal"));
         jLabel37.setFont(fntLabel2);
         jLabel37.setText("Kg");
         jLabel38.setFont(fntLabel2);
-        jLabel38.setText("Vehículo de Carga Pesada");
+        jLabel38.setText(labels.getString("tabPedidos.Vehiculo"));
         jLabel39.setFont(fntLabel2);
-        jLabel39.setText("Observaciones");
+        jLabel39.setText(labels.getString("tabPedidos.Observaciones"));
         btnRegPedido.setIcon(icoGuardar);
-        btnRegPedido.setText("Registrar");
+        btnRegPedido.setText(labels.getString("tabPedidos.BtnRegistrar"));
         btnRegPedido.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnRegPedido.addActionListener(this::btnRegPedidoActionPerformed);
         btnLimpiarPedido.setIcon(icoRenovar);
-        btnLimpiarPedido.setText("Limpiar");
+        btnLimpiarPedido.setText(labels.getString("tabPedidos.BtnLimpiar"));
         btnLimpiarPedido.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnLimpiarPedido.addActionListener(this::btnLimpiarPedidoActionPerformed);
         GroupLayout jPanel9Layout = new GroupLayout(jPanel9);
@@ -1063,25 +1080,25 @@ public class FrmPanel extends JFrame {
                         .addComponent(jPanel9, -1, -1, 32767))
                 .addComponent(jLabel40, -2, 0, 32767)
         );
-        jTabbedPane1.addTab("Pedidos de retiro", jPanel10);
+        jTabbedPane1.addTab(labels.getString("tabPedidos.Rotulo"), jPanel10);
     }
 
     private void agregarTabOrdenes() {
-        jPanel11.setBorder(BorderFactory.createTitledBorder(null, "Órdenes de retiro", 2, 0, fntTitulo));
+        jPanel11.setBorder(BorderFactory.createTitledBorder(null, labels.getString("tabOrdenes.Titulo"), 2, 0, fntTitulo));
         jLabel41.setFont(fntLabel2);
-        jLabel41.setText("Dirección");
+        jLabel41.setText(labels.getString("tabOrdenes.Direccion"));
         jLabel42.setFont(fntLabel2);
-        jLabel42.setText("Fecha");
+        jLabel42.setText(labels.getString("tabOrdenes.Fecha"));
         jLabel43.setFont(fntLabel2);
-        jLabel43.setText("Estado");
+        jLabel43.setText(labels.getString("tabOrdenes.Estado"));
         jLabel44.setFont(fntLabel2);
-        jLabel44.setText("Observaciones");
+        jLabel44.setText(labels.getString("tabOrdenes.Observaciones"));
         btnVisitasObs.setIcon(icoGuardar);
-        btnVisitasObs.setText("Visitas");
+        btnVisitasObs.setText(labels.getString("tabOrdenes.BtnVisitas"));
         btnVisitasObs.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnVisitasObs.addActionListener(this::btnVisitasObsActionPerformed);
         btnAgregarVisita.setIcon(icoModificar);
-        btnAgregarVisita.setText("Agregar Visita");
+        btnAgregarVisita.setText(labels.getString("tabOrdenes.BtnAgregarVisita"));
         btnAgregarVisita.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnAgregarVisita.addActionListener(this::btnAgregarVisitaActionPerformed);
         GroupLayout jPanel11Layout = new GroupLayout(jPanel11);
@@ -1140,8 +1157,20 @@ public class FrmPanel extends JFrame {
                                 .addContainerGap(40, 32767))
         );
         jPanel11.setLayout(jPanel11Layout);
-        tblOrdenes.setModel(new DefaultTableModel(new Object[0][], new String[]{"Id", "Duenio", "Direccion", "Personal", "Fecha",
-                "Estado", "Plástico", "Papel", "Vidrio", "Metal", "Veh Pes", "Obs"}));
+        tblOrdenes.setModel(new DefaultTableModel(new Object[0][], new String[]{
+                labels.getString("tabOrdenes.TblId"),
+                labels.getString("tabOrdenes.TblDuenio"),
+                labels.getString("tabOrdenes.TblDireccion"),
+                labels.getString("tabOrdenes.TblPersonal"),
+                labels.getString("tabOrdenes.TblFecha"),
+                labels.getString("tabOrdenes.TblEstado"),
+                labels.getString("tabOrdenes.TblPlastico"),
+                labels.getString("tabOrdenes.TblPapel"),
+                labels.getString("tabOrdenes.TblVidrio"),
+                labels.getString("tabOrdenes.TblMetal"),
+                labels.getString("tabOrdenes.TblVehPes"),
+                labels.getString("tabOrdenes.TblObs"),
+        }));
         tblOrdenes.setRowHeight(20);
         tblOrdenes.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -1150,7 +1179,7 @@ public class FrmPanel extends JFrame {
         });
         jScrollPane3.setViewportView(tblOrdenes);
         jLabel45.setIcon(icoBuscar);
-        jLabel45.setText("Buscar");
+        jLabel45.setText(labels.getString("tabOrdenes.Buscar"));
         txtBuscarOrden.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent evt) {
                 txtBuscarOrdenKeyReleased();
@@ -1197,27 +1226,27 @@ public class FrmPanel extends JFrame {
                                         .addComponent(jPanel11, -2, -1, -2))
                                 .addComponent(jScrollPane3, -1, 563, 32767))
                         .addGap(25, 25, 25)));
-        jTabbedPane1.addTab("Órdenes", jPanel12);
+        jTabbedPane1.addTab(labels.getString("tabOrdenes.Rotulo"), jPanel12);
     }
 
     private void agregarTabMunicipio() {
-        jPanel13.setBorder(BorderFactory.createTitledBorder(null, "Municipio Club (MC)", 2, 0, fntLabel2));
+        jPanel13.setBorder(BorderFactory.createTitledBorder(null, labels.getString("tabMunicipio.Titulo"), 2, 0, fntLabel2));
         jLabel46.setIcon(imgMunicipio);
         jLabel47.setFont(fntLabel2);
-        jLabel47.setText("Documento");
+        jLabel47.setText(labels.getString("tabMunicipio.Documento"));
         jLabel48.setFont(fntLabel2);
-        jLabel48.setText("Puntos");
+        jLabel48.setText(labels.getString("tabMunicipio.Puntos"));
         jLabel49.setFont(fntLabel2);
-        jLabel49.setText("Elegir beneficio");
+        jLabel49.setText(labels.getString("tabMunicipio.ElegirBeneficio"));
         jLabel50.setFont(fntLabel2);
-        jLabel50.setText("Beneficios activos");
+        jLabel50.setText(labels.getString("tabMunicipio.BeneficiosActivos"));
         jLabel51.setIcon(imgBeneficios);
-        btnVisitasMC.setIcon(icoRenovar);
-        btnVisitasMC.setText("Visitas");
-        btnVisitasMC.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnVisitasMC.addActionListener(this::btnVisitasMCActionPerformed);
+        btnOrdenesMC.setIcon(icoRenovar);
+        btnOrdenesMC.setText(labels.getString("tabMunicipio.BtnOrdenes"));
+        btnOrdenesMC.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnOrdenesMC.addActionListener(this::btnOrdenesMCActionPerformed);
         btnCambiarPuntos.setIcon(icoNuevo);
-        btnCambiarPuntos.setText("Cambiar Puntos");
+        btnCambiarPuntos.setText(labels.getString("tabMunicipio.BtnCambiarPuntos"));
         btnCambiarPuntos.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnCambiarPuntos.addActionListener(this::btnCambiarPuntosActionPerformed);
         GroupLayout jPanel13Layout = new GroupLayout(jPanel13);
@@ -1231,7 +1260,7 @@ public class FrmPanel extends JFrame {
                                 .createParallelGroup(LEADING)
                                 .addGroup(TRAILING, jPanel13Layout
                                         .createSequentialGroup()
-                                        .addComponent(btnVisitasMC, -1, -1, 32767)
+                                        .addComponent(btnOrdenesMC, -1, -1, 32767)
                                         .addGap(93, 93, 93)
                                         .addComponent(btnCambiarPuntos, -1, 115, -1))
                                 .addGroup(TRAILING, jPanel13Layout
@@ -1292,7 +1321,7 @@ public class FrmPanel extends JFrame {
                         .addPreferredGap(RELATED)
                         .addGroup(jPanel13Layout
                                 .createParallelGroup(BASELINE)
-                                .addComponent(btnVisitasMC, -2, 40, -2)
+                                .addComponent(btnOrdenesMC, -2, 40, -2)
                                 .addComponent(btnCambiarPuntos, -2, 40, -2))
                         .addGap(21, 21, 21))
         );
@@ -1324,7 +1353,7 @@ public class FrmPanel extends JFrame {
                                         .addComponent(jPanel13, -1, -1, 32767)))
                         .addContainerGap(29, 32767))
         );
-        jTabbedPane1.addTab("Municipio Club", jPanel14);
+        jTabbedPane1.addTab(labels.getString("tabMunicipio.Rotulo"), jPanel14);
     }
 
     private void agregarMenuBar() {
@@ -1615,7 +1644,15 @@ public class FrmPanel extends JFrame {
         }
     }
 
-    private void btnVisitasMCActionPerformed(ActionEvent evt) {
+    private void btnOrdenesMCActionPerformed(ActionEvent evt) {
+        Respuesta rta = desp.listarOrdenesMC(txtDocMC.getText());
+        if (rta.getEstado().equals("OK")) {
+            if (rta.getObj().toString().isEmpty()) {
+                mostrarMensaje("No se encontraron órdenes de visita\n pendientes para éste usuario");
+            } else {
+                mostrarMensaje(rta.getObj().toString());
+            }
+        } else mostrarMensaje("Error al recibir datos");
     }
 
     private void btnVisitasObsActionPerformed(ActionEvent evt) {

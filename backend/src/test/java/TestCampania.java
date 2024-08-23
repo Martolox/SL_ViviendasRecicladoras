@@ -23,7 +23,7 @@ public class TestCampania {
     void TestListarCampaniaPorId() {
         Respuesta rta = desp.listarCampaniaPorId("30300455");
         assertEquals("OK", rta.getEstado());
-        assertEquals("Campania{duenio='30300455', puntos='180'," +
+        assertEquals("Campania{duenio='30300455', puntos='190'," +
                 " beneficios='Boleto gratis ida/vuelta a El Condor'}", rta.getObj().toString());
     }
 

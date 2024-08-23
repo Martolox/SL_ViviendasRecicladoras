@@ -370,4 +370,12 @@ public interface ServidorAPI {
      * @return mensaje OK más objeto Coordenada o BAD_REQUEST con null.
      */
     Respuesta validarUbicacion(String id, String direccion, String barrio);
+
+    /**
+     * Recupera una lista de visitas activas asociadas al número de documento.
+     *
+     * @param dni String numérico.
+     * @return Lista de visitas activas.
+     */
+    Respuesta listarOrdenesMC(String dni);
 }

@@ -31,6 +31,11 @@ public class RecursoOrden {
         return new ControladorOrden().listar();
     }
 
+    public String listarOrdenesMC(String dni) throws SQLException {
+        validarCampos(dni);
+        return new ControladorOrden().listarOrdenesMC(dni);
+    }
+
     public void modificar(String id, String duenio, String personal, String estado, String plastico,
                           String papel, String vidrio, String metal, boolean vehiculoPesado, String observacion)
             throws OrdenFieldInvalidException, OrdenIdNotFoundException, NumberFormatException, SQLException {
@@ -50,6 +55,13 @@ public class RecursoOrden {
         if (!new ControladorOrden().registrar(duenio, Float.parseFloat(plastico), Float.parseFloat(papel),
                 Float.parseFloat(vidrio), Float.parseFloat(metal), vehiculoPesado, observacion)) {
             throw new OrdenEntityExistsException(duenio);
+        }
+    }
+
+    private void validarCampos(String duenio)
+            throws OrdenFieldInvalidException {
+        if (duenio == null || duenio.isEmpty() || duenio.length() > 8) {
+            throw new DuenioIdNotFoundException("duenio");
         }
     }
 
