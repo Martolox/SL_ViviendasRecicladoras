@@ -28,4 +28,3 @@ public class AbsoluteConstraints implements Serializable {
         return super.toString() + " [x=" + this.x + ", y=" + this.y + ", width=" + this.width + ", height=" + this.height + "]";
     }
 }
-

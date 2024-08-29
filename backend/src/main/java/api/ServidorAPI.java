@@ -121,14 +121,6 @@ public interface ServidorAPI {
     Respuesta listarInscripcionPor(String valor);
 
     /**
-     * Recupera una inscripcion en específico usando como identificador un número de documento.
-     *
-     * @param dni String de 8 caracteres numéricos.
-     * @return mensaje OK más objeto Inscripcion o BAD_REQUEST con null.
-     */
-    Respuesta listarInscripcionPorId(String dni);
-
-    /**
      * Recupera la lista completa de duenios.
      *
      * @return mensaje OK más objeto List[Inscripcion] o BAD_REQUEST con lista vacía.

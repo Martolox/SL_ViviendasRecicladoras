@@ -33,16 +33,6 @@ public class ControladorInscripcion {
         return lista.stream().filter(x -> x.comparacion().toLowerCase().contains(valor.toLowerCase())).toList();
     }
 
-    public InscripcionDto listarPorId(String dni) throws SQLException {
-//        DuenioDto d = duenioDao.listarPorId(dni);
-//        ViviendaDto v = viviendaDao.listarPorId(dni);
-//        UbicacionDto u = ubicacionDao.listarPorId(dni);
-//        String ubicacion = String.format("%s:%s", u.getLatitud(), u.getLongitud());
-//        return new InscripcionDto(dni, d.getNomDuenio(), d.getApeDuenio(), d.getCorreoDuenio(), d.getTelDuenio(),
-//                v.getDireccion(), v.getZona(), v.getBarrio(), ubicacion, d.getFechaReg());
-        return null;
-    }
-
     public List<InscripcionDto> listar() throws SQLException {
         List<Inscripcion> lista = inscripcionDao.listar();
         List<InscripcionDto> listaDto = new ArrayList<>();
@@ -56,16 +46,14 @@ public class ControladorInscripcion {
     }
 
     public void modificar(String dni, String nombre, String apellido, String correo, String telefono, String direccion,
-                          String zona, String barrio)
-            throws SQLException {
+                          String zona, String barrio) throws SQLException {
         if (duenioDao.listarPorId(dni) == null) throw new DuenioIdNotFoundException(dni);
         duenioDao.modificar(nombre, apellido, dni, correo, telefono);
         viviendaDao.modificar(dni, direccion, zona, barrio);
     }
 
     public boolean registrar(String dni, String nombre, String apellido, String correo, String telefono, String direccion,
-                             String zona, String barrio)
-            throws SQLException {
+                             String zona, String barrio) throws SQLException {
         duenioDao.registrar(nombre, apellido, dni, correo, telefono);
         return viviendaDao.registrar(dni, direccion, zona, barrio);
     }

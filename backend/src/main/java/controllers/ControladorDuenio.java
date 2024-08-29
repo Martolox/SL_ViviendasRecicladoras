@@ -34,14 +34,11 @@ public class ControladorDuenio {
         return listaDto;
     }
 
-    public void modificar(String nombre, String apellido, String dni, String correo, String telefono)
-            throws SQLException {
-//        if (duenioDao.listarPorId(dni) == null) throw new DuenioIdNotFoundException(dni);
+    public void modificar(String nombre, String apellido, String dni, String correo, String telefono) throws SQLException {
         duenioDao.modificar(nombre, apellido, dni, correo, telefono);
     }
 
-    public boolean registrar(String nombre, String apellido, String dni, String correo, String telefono)
-            throws SQLException {
+    public boolean registrar(String nombre, String apellido, String dni, String correo, String telefono) throws SQLException {
         return duenioDao.registrar(nombre, apellido, dni, correo, telefono);
     }
 }

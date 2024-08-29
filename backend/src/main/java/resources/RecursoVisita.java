@@ -13,17 +13,12 @@ public class RecursoVisita {
         return new ControladorVisita().listarPorId(id);
     }
 
-    public void registrar(String orden, String estado, String observacion)
-            throws VisitaFieldInvalidException, NumberFormatException, SQLException {
+    public void registrar(String orden, String estado, String observacion) throws SQLException {
         validarCampos(orden, estado);
         new ControladorVisita().registrar(Integer.parseInt(orden), estado, observacion);
-//        if (! ) {
-//            throw new DuenioEntityExistsException(dni);
-//        }
     }
 
-    private void validarCampos(String orden, String estado)
-            throws VisitaFieldInvalidException, NumberFormatException {
+    private void validarCampos(String orden, String estado) {
         if (estado == null || estado.isEmpty()) {
             throw new VisitaFieldInvalidException("nombre");
         }

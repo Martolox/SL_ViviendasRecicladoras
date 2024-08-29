@@ -5,7 +5,6 @@ import dtos.DuenioDto;
 import exceptions.DuenioEntityExistsException;
 import exceptions.DuenioFieldInvalidException;
 import exceptions.DuenioIdNotFoundException;
-import exceptions.PersonalFieldInvalidException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -20,7 +19,7 @@ public class RecursoDuenio {
         new ControladorDuenio().eliminar(dni);
     }
 
-    public DuenioDto listarPorId(String dni) throws DuenioIdNotFoundException, SQLException {
+    public DuenioDto listarPorId(String dni) throws SQLException {
         Optional<DuenioDto> optional = Optional.ofNullable(new ControladorDuenio().listarPorId(dni));
         return optional.orElseThrow(DuenioIdNotFoundException::new);
     }
@@ -29,22 +28,19 @@ public class RecursoDuenio {
         return new ControladorDuenio().listar();
     }
 
-    public void modificar(String nombre, String apellido, String dni, String correo, String telefono)
-            throws DuenioFieldInvalidException, DuenioIdNotFoundException, NumberFormatException, SQLException {
+    public void modificar(String nombre, String apellido, String dni, String correo, String telefono) throws SQLException {
         validarCampos(nombre, apellido, dni, correo, telefono);
         new ControladorDuenio().modificar(nombre, apellido, dni, correo, telefono);
     }
 
-    public void registrar(String nombre, String apellido, String dni, String correo, String telefono)
-            throws DuenioFieldInvalidException, DuenioEntityExistsException, NumberFormatException, SQLException {
+    public void registrar(String nombre, String apellido, String dni, String correo, String telefono) throws SQLException {
         validarCampos(nombre, apellido, dni, correo, telefono);
         if (!new ControladorDuenio().registrar(nombre, apellido, dni, correo, telefono)) {
             throw new DuenioEntityExistsException(dni);
         }
     }
 
-    private void validarCampos(String nombre, String apellido, String dni, String correo, String telefono)
-            throws PersonalFieldInvalidException, NumberFormatException {
+    private void validarCampos(String nombre, String apellido, String dni, String correo, String telefono) throws NumberFormatException {
         if (nombre == null || nombre.isEmpty()) {
             throw new DuenioFieldInvalidException("nombre");
         }

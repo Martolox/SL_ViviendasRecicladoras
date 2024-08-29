@@ -2,7 +2,6 @@ package controllers;
 
 import daos.UbicacionDao;
 import dtos.UbicacionDto;
-import entities.Coordenada;
 import exceptions.UbicacionEntityExistsException;
 
 import java.sql.SQLException;
@@ -24,11 +23,11 @@ public class ControladorUbicacion {
         return ubicacionDao.registrar(id, latitud, longitud);
     }
 
-    public Coordenada validar(String direccion) {
+    public UbicacionDto validar(String direccion) {
 //        TODO Agregar GeoDecoder;
         Random randomNumbers = new Random();
         double latitud = -40.810376207395485 + randomNumbers.nextFloat() * 0.1;
         double longitud = -63.006517432922706 + randomNumbers.nextFloat() * 0.1;
-        return new Coordenada(latitud, longitud);
+        return new UbicacionDto("", latitud, longitud);
     }
 }

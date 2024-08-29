@@ -23,7 +23,7 @@ public class RecursoCampania {
         new ControladorCampania().eliminar(id);
     }
 
-    public CampaniaDto listarPorId(String dni) throws CampaniaIdNotFoundException, SQLException {
+    public CampaniaDto listarPorId(String dni) throws SQLException {
         Optional<CampaniaDto> optional = Optional.ofNullable(new ControladorCampania().listarPorId(dni));
         return optional.orElseThrow(CampaniaIdNotFoundException::new);
     }
@@ -46,8 +46,7 @@ public class RecursoCampania {
         }
     }
 
-    private void validarCampos(String id)
-            throws CampaniaFieldInvalidException, NumberFormatException {
+    private void validarCampos(String id) {
         if (id == null || id.isEmpty() || id.length() > 8) {
             throw new CampaniaFieldInvalidException("id");
         }

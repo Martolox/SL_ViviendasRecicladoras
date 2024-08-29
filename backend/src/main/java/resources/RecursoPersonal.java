@@ -27,7 +27,7 @@ public class RecursoPersonal {
         }
     }
 
-    public PersonalDto listarPorId(String dni) throws PersonalIdNotFoundException, SQLException {
+    public PersonalDto listarPorId(String dni) throws SQLException {
         Optional<PersonalDto> optional = Optional.ofNullable(new ControladorPersonal().listarPorId(dni));
         return optional.orElseThrow(PersonalIdNotFoundException::new);
     }
@@ -36,22 +36,19 @@ public class RecursoPersonal {
         return new ControladorPersonal().listar();
     }
 
-    public void modificar(String nombre, String apellido, String dni)
-            throws PersonalFieldInvalidException, PersonalIdNotFoundException, NumberFormatException, SQLException {
+    public void modificar(String nombre, String apellido, String dni) throws SQLException {
         validarCampos(nombre, apellido, dni);
         new ControladorPersonal().modificar(nombre, apellido, dni);
     }
 
-    public void registrar(String nombre, String apellido, String dni)
-            throws PersonalFieldInvalidException, PersonalEntityExistsException, NumberFormatException, SQLException {
+    public void registrar(String nombre, String apellido, String dni) throws SQLException {
         validarCampos(nombre, apellido, dni);
         if (!new ControladorPersonal().registrar(nombre, apellido, dni)) {
             throw new PersonalEntityExistsException(dni);
         }
     }
 
-    private void validarCampos(String nombre, String apellido, String dni)
-            throws PersonalFieldInvalidException, NumberFormatException {
+    private void validarCampos(String nombre, String apellido, String dni) {
         if (nombre == null || nombre.isEmpty()) {
             throw new PersonalFieldInvalidException("nombre");
         }

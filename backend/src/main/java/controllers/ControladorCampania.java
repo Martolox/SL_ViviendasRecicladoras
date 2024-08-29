@@ -13,8 +13,8 @@ import java.util.Map;
 
 public class ControladorCampania {
     private final CampaniaDao campaniaDao;
-    private Map<String, Integer> puntaje;
-    private Map<String, String> descripcion;
+    private final Map<String, Integer> puntaje;
+    private final Map<String, String> descripcion;
 
     public ControladorCampania() {
         campaniaDao = new CampaniaDao();

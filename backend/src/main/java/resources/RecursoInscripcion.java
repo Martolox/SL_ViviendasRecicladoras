@@ -3,13 +3,10 @@ package resources;
 import controllers.ControladorInscripcion;
 import dtos.InscripcionDto;
 import exceptions.DuenioEntityExistsException;
-import exceptions.DuenioFieldInvalidException;
-import exceptions.DuenioIdNotFoundException;
 import exceptions.InscripcionFieldInvalidException;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public class RecursoInscripcion {
 
@@ -28,25 +25,18 @@ public class RecursoInscripcion {
         }
     }
 
-    public InscripcionDto listarPorId(String dni) throws SQLException {
-        Optional<InscripcionDto> optional = Optional.ofNullable(new ControladorInscripcion().listarPorId(dni));
-        return optional.orElseThrow(DuenioIdNotFoundException::new);
-    }
-
     public List<InscripcionDto> listar() throws SQLException {
         return new ControladorInscripcion().listar();
     }
 
     public void modificar(String dni, String nombre, String apellido, String correo, String telefono, String direccion,
-                          String zona, String barrio)
-            throws InscripcionFieldInvalidException, DuenioIdNotFoundException, NumberFormatException, SQLException {
+                          String zona, String barrio) throws SQLException {
         validarCampos(dni, nombre, apellido, correo, telefono, direccion, barrio);
         new ControladorInscripcion().modificar(dni, nombre, apellido, correo, telefono, direccion, zona, barrio);
     }
 
     public void registrar(String dni, String nombre, String apellido, String correo, String telefono, String direccion,
-                          String zona, String barrio)
-            throws DuenioFieldInvalidException, DuenioEntityExistsException, NumberFormatException, SQLException {
+                          String zona, String barrio) throws SQLException {
         validarCampos(dni, nombre, apellido, correo, telefono, direccion, barrio);
         if (!new ControladorInscripcion().registrar(dni, nombre, apellido, correo, telefono, direccion, zona, barrio)) {
             throw new DuenioEntityExistsException(dni);
@@ -54,8 +44,7 @@ public class RecursoInscripcion {
     }
 
     private void validarCampos(String dni, String nombre, String apellido, String correo,
-                               String telefono, String direccion, String barrio)
-            throws NumberFormatException {
+                               String telefono, String direccion, String barrio) {
         if (dni == null || dni.isEmpty() || dni.length() > 8) {
             throw new InscripcionFieldInvalidException("documento");
         }

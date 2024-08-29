@@ -2,7 +2,6 @@ package resources;
 
 import controllers.ControladorVivienda;
 import dtos.ViviendaDto;
-import exceptions.DuenioIdNotFoundException;
 import exceptions.ViviendaEntityExistsException;
 import exceptions.ViviendaFieldInvalidException;
 import exceptions.ViviendaIdNotFoundException;
@@ -20,7 +19,7 @@ public class RecursoVivienda {
         new ControladorVivienda().eliminar(id);
     }
 
-    public ViviendaDto listarPorId(String id) throws ViviendaIdNotFoundException, SQLException {
+    public ViviendaDto listarPorId(String id) throws SQLException {
         Optional<ViviendaDto> optional = Optional.ofNullable(new ControladorVivienda().listarPorId(id));
         return optional.orElseThrow(ViviendaIdNotFoundException::new);
     }
@@ -29,23 +28,20 @@ public class RecursoVivienda {
         return new ControladorVivienda().listar();
     }
 
-    public void modificar(String id, String duenio, String direccion, String zona, String barrio)
-            throws ViviendaFieldInvalidException, ViviendaIdNotFoundException, NumberFormatException, SQLException {
+    public void modificar(String id, String duenio, String direccion, String zona, String barrio) throws SQLException {
         validarCampos(id, direccion, barrio);
         if (!id.equals(duenio)) throw new ViviendaFieldInvalidException(id);
         new ControladorVivienda().modificar(id, direccion, zona, barrio);
     }
 
-    public void registrar(String id, String direccion, String zona, String barrio) throws ViviendaFieldInvalidException,
-            DuenioIdNotFoundException, ViviendaEntityExistsException, NumberFormatException, SQLException {
+    public void registrar(String id, String direccion, String zona, String barrio) throws SQLException {
         validarCampos(id, direccion, barrio);
         if (!new ControladorVivienda().registrar(id, direccion, zona, barrio)) {
             throw new ViviendaEntityExistsException();
         }
     }
 
-    private void validarCampos(String id, String direccion, String barrio)
-            throws ViviendaFieldInvalidException, NumberFormatException {
+    private void validarCampos(String id, String direccion, String barrio) {
         if (id == null || id.isEmpty() || id.length() > 8) {
             throw new ViviendaFieldInvalidException("id");
         }

@@ -21,14 +21,6 @@ public class TestInscripcion {
     }
 
     @Test
-    void TestListarInscripcionPorId() {
-        Respuesta rta = desp.listarInscripcionPorId("30300455");
-        assertEquals("OK", rta.getEstado());
-        assertEquals("Inscripcion{documento='30300455', nombre='Diego', apellido='Fernandez'," +
-                " ubicacion='-40.8096612612647:-63.00209613467383'}", rta.getObj().toString());
-    }
-
-    @Test
     void TestListarInscripciones() {
         Respuesta rta = desp.listarInscripciones();
         assertEquals("OK", rta.getEstado());

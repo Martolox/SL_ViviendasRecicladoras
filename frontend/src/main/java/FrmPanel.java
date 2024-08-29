@@ -1,7 +1,6 @@
 import api.Despachador;
 import com.formdev.flatlaf.FlatDarkLaf;
 import dtos.*;
-import entities.Coordenada;
 import entities.Respuesta;
 import entities.Usuario;
 
@@ -2038,9 +2037,9 @@ public class FrmPanel extends JFrame {
         String direccion = txtDirVivienda.getText();
         String zona = txtZonaVivienda.getText();
         String barrio = txtBarrioVivienda.getText();
-        Coordenada coord = (Coordenada) desp.validarUbicacion(documento, direccion, barrio).getObj();
+        UbicacionDto ubicacion = (UbicacionDto) desp.validarUbicacion(documento, direccion, barrio).getObj();
         String rta1 = desp.registrarVivienda(documento, direccion, zona, barrio).getEstado();
-        String rta2 = desp.registrarUbicacion(documento, coord.latitud(), coord.longitud()).getEstado();
+        String rta2 = desp.registrarUbicacion(documento, ubicacion.getLatitud(), ubicacion.getLongitud()).getEstado();
         if (rta1.equals("OK") && rta2.equals("OK")) {
             mostrarMensaje("Vivienda registrada satisfactoriamente");
             menuInscripcionesActionPerformed();
@@ -2056,12 +2055,12 @@ public class FrmPanel extends JFrame {
         Respuesta rta = desp.validarUbicacion(documento, direccion, barrio);
         switch (rta.getEstado()) {
             case "OK":
-                Coordenada coord = (Coordenada) rta.getObj();
+                UbicacionDto ubicacion = (UbicacionDto) rta.getObj();
                 mostrarMensaje("Ubicación hallada");
                 txtDirVivienda.setEnabled(false);
                 txtZonaVivienda.setEnabled(false);
                 txtBarrioVivienda.setEnabled(false);
-                txtUbicacion.setText(String.format("%s : %s", coord.latitud(), coord.longitud()));
+                txtUbicacion.setText(String.format("%s : %s", ubicacion.getLatitud(), ubicacion.getLongitud()));
                 btnRegVivienda.setText("Registrar Vivienda");
                 break;
             case "BAD_REQUEST El id indicado no fue encontrado":

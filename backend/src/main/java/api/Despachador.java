@@ -219,21 +219,6 @@ public class Despachador implements ServidorAPI {
     }
 
     @Override
-    public Respuesta listarInscripcionPorId(String dni) {
-        Respuesta respuesta = new Respuesta("OK");
-        try {
-            respuesta.setObj(recursoInscripcion.listarPorId(dni));
-        } catch (DuenioIdNotFoundException e) {
-            respuesta.setEstado("BAD_REQUEST " + e);
-        } catch (SQLException e) {
-            respuesta.setEstado("BAD_REQUEST " + "Fallo al recibir base de datos");
-        } catch (Exception e) {
-            respuesta.setEstado("ERROR " + e);
-        }
-        return respuesta;
-    }
-
-    @Override
     public Respuesta listarInscripciones() {
         Respuesta respuesta = new Respuesta("OK");
         try {
@@ -617,4 +602,5 @@ public class Despachador implements ServidorAPI {
         }
         return respuesta;
     }
+
 }
