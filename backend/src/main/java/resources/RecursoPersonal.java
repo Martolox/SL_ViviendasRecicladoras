@@ -2,7 +2,6 @@ package resources;
 
 import controllers.ControladorPersonal;
 import dtos.PersonalDto;
-import exceptions.PersonalEntityExistsException;
 import exceptions.PersonalFieldInvalidException;
 import exceptions.PersonalIdNotFoundException;
 
@@ -14,7 +13,8 @@ public class RecursoPersonal {
 
     public void eliminar(String dni) throws SQLException {
         if (dni == null || dni.isEmpty() || dni.length() > 8) {
-            throw new PersonalFieldInvalidException("documento");
+            throw new PersonalFieldInvalidException();
+//            throw new PersonalFieldInvalidException("documento");
         }
         new ControladorPersonal().eliminar(dni);
     }
@@ -43,9 +43,7 @@ public class RecursoPersonal {
 
     public void registrar(String nombre, String apellido, String dni) throws SQLException {
         validarCampos(nombre, apellido, dni);
-        if (!new ControladorPersonal().registrar(nombre, apellido, dni)) {
-            throw new PersonalEntityExistsException(dni);
-        }
+        new ControladorPersonal().registrar(nombre, apellido, dni);
     }
 
     private void validarCampos(String nombre, String apellido, String dni) {
@@ -58,6 +56,10 @@ public class RecursoPersonal {
         if (dni == null || dni.isEmpty() || dni.length() > 8) {
             throw new PersonalFieldInvalidException("documento");
         }
-        Integer.parseInt(dni);
+        try {
+            Integer.parseInt(dni);
+        } catch (NumberFormatException e) {
+            throw new PersonalFieldInvalidException("documento debe ser numérico");
+        }
     }
 }

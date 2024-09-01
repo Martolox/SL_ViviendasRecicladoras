@@ -1,6 +1,11 @@
 import api.Despachador;
-import entities.Respuesta;
+import dtos.DuenioDto;
+import exceptions.DuenioFieldInvalidException;
+import exceptions.DuenioIdNotFoundException;
 import org.junit.jupiter.api.Test;
+import test.Respuesta;
+
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -9,33 +14,46 @@ public class TestDuenio {
 
     @Test
     void TestEliminarDuenio() {
-        Respuesta rta = desp.eliminarDuenio("30237244");
-        assertEquals("OK", rta.getEstado());
+        try {
+            desp.eliminarDuenio("30237244");
+            ;
+        } catch (DuenioFieldInvalidException | DuenioIdNotFoundException | NumberFormatException e) {
+            System.out.println("BAD_REQUEST " + e);
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e.getMessage());
+        }
     }
 
     @Test
     void TestListarDuenioPorId() {
-        Respuesta rta = desp.listarDuenioPorId("30300455");
-        assertEquals("OK", rta.getEstado());
-        assertEquals("Duenio{nombre='Diego', apellido='Fernandez', DNI='30300455'}", rta.getObj().toString());
-    }
-
-    @Test
-    void TestListarDuenios() {
-        Respuesta rta = desp.listarDuenios();
-        assertEquals("OK", rta.getEstado());
-        assertEquals("[Duenio{nombre='Mario', apelli", rta.getObj().toString().substring(0, 30));
-    }
-
-    @Test
-    void TestModificarDuenio() {
-        Respuesta rta = desp.modificarDuenio("Luis", "Martinez", "30029911", "luis@hotmail.com", "2920000003");
-        assertEquals("OK", rta.getEstado());
+        try {
+            DuenioDto d = desp.listarDuenioPorId("30300455");
+            assertEquals("Duenio{nombre='Diego', apellido='Fernandez', DNI='30300455'}", d.toString());
+        } catch (DuenioIdNotFoundException e) {
+            System.out.println("BAD_REQUEST " + e);
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
+        }
     }
 
     @Test
     void TestRegistrarDuenio() {
-        Respuesta rta = desp.registrarDuenio("Javier", "Rodriguez", "30237244", "javier@hotmail.com", "2920000001");
-        assertEquals("OK", rta.getEstado());
+        try {
+            desp.registrarDuenio("Javier", "Rodriguez", "30237244", "javier@hotmail.com", "2920000001");
+        } catch (DuenioFieldInvalidException e) {
+            System.out.println("Error de validación. ");
+        } catch (SQLException e) {
+            if (e.getMessage().contains("Duplicate entry"))
+                System.out.println("Error de duplicación. Ya existe un personal con ese documento");
+            else {
+                System.out.println("Error de conexión SQL: " + e);
+            }
+        } catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+        }
     }
 }

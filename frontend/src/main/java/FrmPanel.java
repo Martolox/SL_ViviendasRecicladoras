@@ -1,15 +1,15 @@
 import api.Despachador;
 import com.formdev.flatlaf.FlatDarkLaf;
 import dtos.*;
-import entities.Respuesta;
-import entities.Usuario;
+import exceptions.*;
+import test.Usuario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.List;
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -1518,15 +1518,31 @@ public class FrmPanel extends JFrame {
         else {
             String estado = Objects.requireNonNull(cbxEstado.getSelectedItem()).toString();
             String observacion = txtObsOrdenes.getText();
-            if (desp.registrarVisita(id, estado, observacion).getEstado().equals("OK"))
+            try {
+                desp.registrarVisita(id, estado, observacion);
                 mostrarMensaje("Nota agregada");
+            } catch (UbicacionIdNotFoundException e) {
+                System.out.println("BAD_REQUEST " + e);
+            } catch (SQLException e) {
+                System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            } catch (Exception e) {
+                System.out.println("ERROR " + e);
+            }
         }
     }
 
     private void btnCambiarPuntosActionPerformed(ActionEvent evt) {
         String id = txtDocMC.getText();
-        String beneficio = cbxBeneficio.getSelectedItem().toString();
-        desp.cambiarPuntos(id, beneficio);
+        String beneficio = Objects.requireNonNull(cbxBeneficio.getSelectedItem()).toString();
+        try {
+            desp.cambiarPuntos(id, beneficio);
+        } catch (PersonalIdNotFoundException e) {
+            System.out.println("BAD_REQUEST " + e);
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
+        }
         listarPuntosMC();
     }
 
@@ -1536,13 +1552,18 @@ public class FrmPanel extends JFrame {
         } else {
             int pregunta = pedirConfirmacion(String.format("documento %s", txtIdInsc.getText()));
             if (pregunta == 0) {
-                if (desp.eliminarDuenio(txtIdInsc.getText()).getEstado().equals("OK")) {
+                try {
+                    desp.eliminarDuenio(txtIdInsc.getText());
                     limpiarTabla();
                     limpiarInscripcion();
                     listarInscripciones();
                     mostrarMensaje("Inscripción Eliminada");
-                } else {
-                    mostrarMensaje("Error al intentar eliminar Inscripción");
+                } catch (DuenioFieldInvalidException | DuenioIdNotFoundException | NumberFormatException e) {
+                    System.out.println("BAD_REQUEST " + e);
+                } catch (SQLException e) {
+                    System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+                } catch (Exception e) {
+                    System.out.println("ERROR " + e.getMessage());
                 }
             }
         }
@@ -1556,13 +1577,20 @@ public class FrmPanel extends JFrame {
             String nomCompleto = txtNomPersonal.getText() + " " + txtApePersonal.getText();
             int pregunta = pedirConfirmacion(nomCompleto);
             if (pregunta == 0) {
-                if (desp.eliminarPersonal(txtDocPersonal.getText()).getEstado().equals("OK")) {
+                try {
+                    desp.eliminarPersonal(txtDocPersonal.getText());
                     mostrarMensaje("Personal eliminado");
                     limpiarTabla();
                     limpiarPersonal();
                     listarPersonal();
                     imgRegistrar(btnRegPersonal);
-                } else mostrarMensaje("Error al intentar eliminar Personal");
+                } catch (PersonalFieldInvalidException | PersonalIdNotFoundException | NumberFormatException e) {
+                    System.out.println("BAD_REQUEST " + e.getMessage());
+                } catch (SQLException e) {
+                    System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+                } catch (Exception e) {
+                    System.out.println("ERROR " + e.getMessage());
+                }
             }
         }
     }
@@ -1595,7 +1623,16 @@ public class FrmPanel extends JFrame {
         String metal = txtMetal.getText();
         boolean vehiculo = chxVehiculo.isSelected();
         String observacion = txtObsPedido.getText();
-        desp.registrarOrden(duenio, plastico, papel, vidrio, metal, vehiculo, observacion);
+        try {
+            desp.registrarOrden(duenio, plastico, papel, vidrio, metal, vehiculo, observacion);
+        } catch (OrdenFieldInvalidException | OrdenEntityExistsException |
+                 DuenioIdNotFoundException | PersonalIdNotFoundException | NumberFormatException e) {
+            System.out.println("BAD_REQUEST " + e);
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
+        }
     }
 
     private void btnRegDuenioActionPerformed(ActionEvent evt) {
@@ -1604,28 +1641,23 @@ public class FrmPanel extends JFrame {
         String documento = txtDocDuenio.getText();
         String correo = txtCorreoDuenio.getText();
         String telefono = txtTelDuenio.getText();
-        String rta = desp.registrarDuenio(nombre, apellido, documento, correo, telefono).getEstado();
-        switch (rta) {
-            case "OK":
-                mostrarMensaje("Nuevo dueño registrado");
-                txtDocVivienda.setText(documento);
-                usuario.setDocumento(documento);
-                menuViviendaMouseClicked();
-                break;
-            case "BAD_REQUEST Fallo al recibir base de datos":
-                mostrarMensaje("Ya existe un dueño con el mismo documento");
-                break;
-            case "BAD_REQUEST Campo obligatorio inválido: nombre":
-            case "BAD_REQUEST Campo obligatorio inválido: apellido":
-            case "BAD_REQUEST Campo obligatorio inválido: documento":
-                mostrarMensaje("Los campos nombre, apellido y documento son requeridos");
-                break;
-            case "BAD_REQUEST Campo obligatorio inválido: correo":
-                mostrarMensaje("El correo debe tener @");
-                break;
-            default:
-                if (rta.contains("For input string")) mostrarMensaje("Los campos dni y teléfono deben ser numéricos");
-                else mostrarMensaje("Error al Registrar");
+        try {
+            desp.registrarDuenio(nombre, apellido, documento, correo, telefono);
+            mostrarMensaje(labels.getString("regDuenio.Ok") + nombre + " " + apellido);
+            txtDocVivienda.setText(documento);
+            usuario.setDocumento(documento);
+            menuViviendaMouseClicked();
+        } catch (DuenioFieldInvalidException e) {
+            mostrarMensaje(labels.getString("regDuenio.DFIException") + e.getMessage());
+        } catch (SQLException e) {
+            if (e.getMessage().contains("Duplicate entry")) {
+                mostrarMensaje(labels.getString("regDuenio.SQLExceptionDE"));
+            } else {
+                mostrarMensaje(labels.getString("regDuenio.SQLException"));
+            }
+        } catch (Exception e) {
+            mostrarMensaje(labels.getString("regDuenio.Exception"));
+            System.out.println(e.getMessage());
         }
     }
 
@@ -1644,14 +1676,20 @@ public class FrmPanel extends JFrame {
     }
 
     private void btnOrdenesMCActionPerformed(ActionEvent evt) {
-        Respuesta rta = desp.listarOrdenesMC(txtDocMC.getText());
-        if (rta.getEstado().equals("OK")) {
-            if (rta.getObj().toString().isEmpty()) {
+        try {
+            var txt = desp.listarOrdenesMC(txtDocMC.getText());
+            if (txt.isEmpty()) {
                 mostrarMensaje("No se encontraron órdenes de visita\n pendientes para éste usuario");
             } else {
-                mostrarMensaje(rta.getObj().toString());
+                mostrarMensaje(txt);
             }
-        } else mostrarMensaje("Error al recibir datos");
+        } catch (OrdenFieldInvalidException e) {
+            System.out.println("BAD_REQUEST " + e);
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
+        }
     }
 
     private void btnVisitasObsActionPerformed(ActionEvent evt) {
@@ -1767,22 +1805,26 @@ public class FrmPanel extends JFrame {
     }
 
     private void listarDuenio() {
-        Respuesta rta = desp.listarDuenioPorId(usuario.getDocumento());
-        if (rta.getEstado().equals("OK")) {
-            var d = (DuenioDto) rta.getObj();
+        try {
+            DuenioDto d = desp.listarDuenioPorId(usuario.getDocumento());
             txtNomDuenio.setText(d.getNomDuenio());
             txtApeDuenio.setText(d.getApeDuenio());
             txtDocDuenio.setText(d.getDocDuenio());
             txtTelDuenio.setText(d.getTelDuenio());
             txtCorreoDuenio.setText(d.getCorreoDuenio());
             jTabbedPane1.setSelectedIndex(0);
+        } catch (DuenioIdNotFoundException e) {
+            System.out.println("BAD_REQUEST " + e);
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
         }
     }
 
     private void listarInscripciones() {
-        Respuesta rta = desp.listarInscripciones();
-        if (rta.getEstado().equals("OK")) {
-            var lista = (List<InscripcionDto>) rta.getObj();
+        try {
+            var lista = desp.listarInscripciones();
             tabla = (DefaultTableModel) tblInscripciones.getModel();
             Object[] ob = new Object[12];
             for (InscripcionDto ins : lista) {
@@ -1802,15 +1844,16 @@ public class FrmPanel extends JFrame {
             }
             tblInscripciones.setModel(tabla);
             color(tblInscripciones);
-        } else {
-            mostrarMensaje("Error al recuperar la tabla de inscripciones");
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
         }
     }
 
     private void listarInscripcionesFiltradas(String valor) {
-        Respuesta rta = desp.listarInscripcionPor(valor);
-        if (rta.getEstado().equals("OK")) {
-            var lista = (List<InscripcionDto>) rta.getObj();
+        try {
+            var lista = desp.listarInscripcionPor(valor);
             tabla = (DefaultTableModel) tblInscripciones.getModel();
             Object[] ob = new Object[12];
             for (InscripcionDto ins : lista) {
@@ -1830,39 +1873,16 @@ public class FrmPanel extends JFrame {
             }
             tblInscripciones.setModel(tabla);
             color(tblInscripciones);
-        } else {
-            mostrarMensaje("Error al recuperar la tabla de inscripciones");
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
         }
     }
 
     private void listarOrdenes() {
-        Respuesta rta = desp.listarOrdenes();
-        var lista = (List<OrdenDto>) rta.getObj();
-        tabla = (DefaultTableModel) tblOrdenes.getModel();
-        Object[] ob = new Object[12];
-        for (OrdenDto o : lista) {
-            ob[0] = o.getId();
-            ob[1] = o.getDuenio();
-            ob[2] = o.getDireccion();
-            ob[3] = o.getPersonal();
-            ob[4] = o.getFecha();
-            ob[5] = o.getEstado();
-            ob[6] = o.getPlastico();
-            ob[7] = o.getPapel();
-            ob[8] = o.getVidrio();
-            ob[9] = o.getMetal();
-            ob[10] = o.isVehiculoPesado();
-            ob[11] = o.getObservacion();
-            tabla.addRow(ob);
-        }
-        tblOrdenes.setModel(tabla);
-        color(tblOrdenes);
-    }
-
-    private void listarOrdenesFiltradas(String valor) {
-        Respuesta rta = desp.listarOrdenPor(valor);
-        if (rta.getEstado().equals("OK")) {
-            var lista = (List<OrdenDto>) rta.getObj();
+        try {
+            var lista = desp.listarOrdenes();
             tabla = (DefaultTableModel) tblOrdenes.getModel();
             Object[] ob = new Object[12];
             for (OrdenDto o : lista) {
@@ -1882,31 +1902,69 @@ public class FrmPanel extends JFrame {
             }
             tblOrdenes.setModel(tabla);
             color(tblOrdenes);
-        } else {
-            mostrarMensaje("Error al recuperar la tabla de inscripciones");
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
+        }
+    }
+
+    private void listarOrdenesFiltradas(String valor) {
+        try {
+            var lista = desp.listarOrdenPor(valor);
+            tabla = (DefaultTableModel) tblOrdenes.getModel();
+            Object[] ob = new Object[12];
+            for (OrdenDto o : lista) {
+                ob[0] = o.getId();
+                ob[1] = o.getDuenio();
+                ob[2] = o.getDireccion();
+                ob[3] = o.getPersonal();
+                ob[4] = o.getFecha();
+                ob[5] = o.getEstado();
+                ob[6] = o.getPlastico();
+                ob[7] = o.getPapel();
+                ob[8] = o.getVidrio();
+                ob[9] = o.getMetal();
+                ob[10] = o.isVehiculoPesado();
+                ob[11] = o.getObservacion();
+                tabla.addRow(ob);
+            }
+            tblOrdenes.setModel(tabla);
+            color(tblOrdenes);
+        } catch (NumberFormatException e) {
+            System.out.println("BAD_REQUEST " + e);
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
         }
     }
 
     private void listarPersonal() {
-        Respuesta respuesta = desp.listarPersonal();
-        var lista = (List<PersonalDto>) respuesta.getObj();
-        tabla = (DefaultTableModel) tblPersonal.getModel();
-        Object[] ob = new Object[4];
-        for (int i = 0; i < lista.size(); i++) {
-            ob[0] = i + 1;
-            ob[1] = lista.get(i).getNomPersonal();
-            ob[2] = lista.get(i).getApePersonal();
-            ob[3] = lista.get(i).getDocPersonal();
-            tabla.addRow(ob);
+
+        try {
+            var lista = desp.listarPersonal();
+            tabla = (DefaultTableModel) tblPersonal.getModel();
+            Object[] ob = new Object[4];
+            for (int i = 0; i < lista.size(); i++) {
+                ob[0] = i + 1;
+                ob[1] = lista.get(i).getNomPersonal();
+                ob[2] = lista.get(i).getApePersonal();
+                ob[3] = lista.get(i).getDocPersonal();
+                tabla.addRow(ob);
+            }
+            tblPersonal.setModel(tabla);
+            color(tblPersonal);
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
         }
-        tblPersonal.setModel(tabla);
-        color(tblPersonal);
     }
 
     private void listarPersonalFiltrado(String valor) {
-        Respuesta rta = desp.listarPersonalPor(valor);
-        if (rta.getEstado().equals("OK")) {
-            var lista = (List<PersonalDto>) rta.getObj();
+        try {
+            var lista = desp.listarPersonalPor(valor);
             tabla = (DefaultTableModel) tblPersonal.getModel();
             Object[] ob = new Object[4];
             for (int i = 0; i < lista.size(); i++) {
@@ -1918,52 +1976,72 @@ public class FrmPanel extends JFrame {
             }
             tblInscripciones.setModel(tabla);
             color(tblInscripciones);
-        } else {
-            mostrarMensaje("Error al recuperar la tabla de inscripciones");
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
         }
     }
 
     private void listarPuntosMC() {
         String id = usuario.getDocumento();
         txtDocMC.setText(id);
-        Respuesta rta = desp.listarCampaniaPorId(id);
-        if (rta.getEstado().equals("OK")) {
-            CampaniaDto campania = (CampaniaDto) rta.getObj();
+
+        try {
+            CampaniaDto campania = desp.listarCampaniaPorId(id);
             txtPuntos.setText(String.valueOf(campania.getPuntos()));
             txtBenefActivos.setText(campania.getBeneficios());
+        } catch (PersonalIdNotFoundException e) {
+            System.out.println("BAD_REQUEST " + e);
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
         }
     }
 
     private void listarVisitas(String idRecolector, String direccion, String estado) {
-        var lista = (List<VisitaDto>) desp.listarVisitasPorId(txtIdOrdenes.getText()).getObj();
-        PersonalDto personal = (PersonalDto) desp.listarPersonalPorId(idRecolector).getObj();
-        String texto = "";
-        if (lista != null) {
-            texto += String.format("Orden de Retiro %s - Vivienda %s ", lista.getFirst().getIdOrden(), direccion);
-            texto += String.format("- Recolector %s %s%n", personal.getNomPersonal(), personal.getApePersonal());
-            texto += String.format("(Estado %s)%n", estado);
-            StringBuilder textoBuilder = new StringBuilder(texto);
-            for (int i = 0; i < lista.size(); i++) {
-                textoBuilder.append(String.format("Visita %d: Fecha: %s -%n%s%n", (i + 1), lista.get(i).getFecha(),
-                        lista.get(i).getObservacion()));
+        try {
+            var lista = desp.listarVisitasPorId(txtIdOrdenes.getText());
+            var personal = desp.listarPersonalPorId(idRecolector);
+            String texto = "";
+            if (lista != null) {
+                texto += String.format("Orden de Retiro %s - Vivienda %s ", lista.getFirst().getIdOrden(), direccion);
+                texto += String.format("- Recolector %s %s%n", personal.getNomPersonal(), personal.getApePersonal());
+                texto += String.format("(Estado %s)%n", estado);
+                StringBuilder textoBuilder = new StringBuilder(texto);
+                for (int i = 0; i < lista.size(); i++) {
+                    textoBuilder.append(String.format("Visita %d: Fecha: %s -%n%s%n", (i + 1), lista.get(i).getFecha(),
+                            lista.get(i).getObservacion()));
+                }
+                texto = textoBuilder.toString();
+                mostrarMensaje(texto);
             }
-            texto = textoBuilder.toString();
-            mostrarMensaje(texto);
+        } catch (PersonalIdNotFoundException e) {
+            System.out.println("BAD_REQUEST " + e);
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
         }
     }
 
     private void listarVivienda() {
         if (!usuario.getDocumento().isEmpty()) {
-            Respuesta rta = desp.listarViviendaPorId(usuario.getDocumento());
-            if (rta.getEstado().equals("OK")) {
-                ViviendaDto v = (ViviendaDto) rta.getObj();
+            try {
+                ViviendaDto v = desp.listarViviendaPorId(usuario.getDocumento());
                 txtDirVivienda.setText(v.getDireccion());
                 txtZonaVivienda.setText(v.getZona());
                 txtBarrioVivienda.setText(v.getBarrio());
-            } else {
-                mostrarMensaje("Problemas al recuperar datos de dirección.");
+            } catch (ViviendaIdNotFoundException e) {
+                System.out.println("BAD_REQUEST " + e);
+            } catch (SQLException e) {
+                System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            } catch (Exception e) {
+                System.out.println("ERROR " + e);
             }
-        } else mostrarMensaje("El campo 'Documento' no puede quedar vacío.");
+//            mostrarMensaje("Problemas al recuperar datos de dirección.");
+        }
     }
 
     private void llenarBeneficios() {
@@ -1995,11 +2073,15 @@ public class FrmPanel extends JFrame {
         String direccion = txtDirInsc.getText();
         String zona = txtZonaInsc.getText();
         String barrio = txtBarrioInsc.getText();
-        Respuesta rta = desp.modificarInscripcion(id, nombre, apellido, correo, telefono, direccion, zona, barrio);
-        if (rta.getEstado().equals("OK")) {
+        try {
+            desp.modificarInscripcion(id, nombre, apellido, correo, telefono, direccion, zona, barrio);
             mostrarMensaje("Incripción Modificada");
-        } else {
-            mostrarMensaje("Error al Modificar");
+        } catch (InscripcionFieldInvalidException | DuenioIdNotFoundException | NumberFormatException e) {
+            System.out.println("BAD_REQUEST " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
         }
     }
 
@@ -2018,14 +2100,31 @@ public class FrmPanel extends JFrame {
         String apellido = txtApePersonal.getText();
         String documento = txtDocPersonal.getText();
         if (id.isEmpty()) {
-            if (desp.registrarPersonal(nombre, apellido, documento).getEstado().equals("OK"))
-                mostrarMensaje("Usuario Registrado");
-            else mostrarMensaje("Error al Registrar");
+            try {
+                desp.registrarPersonal(nombre, apellido, documento);
+                mostrarMensaje(labels.getString("regPersonal.Ok") + nombre + " " + apellido);
+            } catch (PersonalFieldInvalidException e) {
+                mostrarMensaje(labels.getString("regPersonal.PFIException") + e.getMessage());
+            } catch (SQLException e) {
+                if (e.getMessage().contains("Duplicate entry")) {
+                    mostrarMensaje(labels.getString("regPersonal.SQLExceptionDE"));
+                } else {
+                    mostrarMensaje(labels.getString("regPersonal.SQLException"));
+                }
+            } catch (Exception e) {
+                mostrarMensaje(labels.getString("regPersonal.Exception"));
+                System.out.println("Error inesperado: " + e.getMessage());
+            }
         } else {
-            if (desp.modificarPersonal(nombre, apellido, documento).getEstado().equals("OK")) {
-                mostrarMensaje("Usuario Modificado");
-            } else {
-                mostrarMensaje("Error al Modificar");
+            try {
+                desp.modificarPersonal(nombre, apellido, documento);
+                mostrarMensaje("Personal Modificado");
+            } catch (PersonalFieldInvalidException | PersonalIdNotFoundException | NumberFormatException e) {
+                System.out.println("BAD_REQUEST " + e);
+            } catch (SQLException e) {
+                System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            } catch (Exception e) {
+                System.out.println("ERROR " + e);
             }
         }
         limpiarPersonal();
@@ -2037,14 +2136,19 @@ public class FrmPanel extends JFrame {
         String direccion = txtDirVivienda.getText();
         String zona = txtZonaVivienda.getText();
         String barrio = txtBarrioVivienda.getText();
-        UbicacionDto ubicacion = (UbicacionDto) desp.validarUbicacion(documento, direccion, barrio).getObj();
-        String rta1 = desp.registrarVivienda(documento, direccion, zona, barrio).getEstado();
-        String rta2 = desp.registrarUbicacion(documento, ubicacion.getLatitud(), ubicacion.getLongitud()).getEstado();
-        if (rta1.equals("OK") && rta2.equals("OK")) {
+        try {
+            UbicacionDto ubicacion = desp.validarUbicacion(documento, direccion, barrio);
+            desp.registrarVivienda(documento, direccion, zona, barrio);
+            desp.registrarUbicacion(documento, ubicacion.getLatitud(), ubicacion.getLongitud());
             mostrarMensaje("Vivienda registrada satisfactoriamente");
             menuInscripcionesActionPerformed();
-        } else {
-            mostrarMensaje(String.format("Error en el registro:\nVivienda: %s\nUbicacion: %s", rta1, rta2));
+        } catch (ViviendaFieldInvalidException | ViviendaEntityExistsException | DuenioIdNotFoundException |
+                 NumberFormatException | UbicacionFieldInvalidException | UbicacionEntityExistsException e) {
+            System.out.println("BAD_REQUEST " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -2052,27 +2156,18 @@ public class FrmPanel extends JFrame {
         String documento = txtDocVivienda.getText();
         String direccion = txtDirVivienda.getText();
         String barrio = txtBarrioVivienda.getText();
-        Respuesta rta = desp.validarUbicacion(documento, direccion, barrio);
-        switch (rta.getEstado()) {
-            case "OK":
-                UbicacionDto ubicacion = (UbicacionDto) rta.getObj();
-                mostrarMensaje("Ubicación hallada");
-                txtDirVivienda.setEnabled(false);
-                txtZonaVivienda.setEnabled(false);
-                txtBarrioVivienda.setEnabled(false);
-                txtUbicacion.setText(String.format("%s : %s", ubicacion.getLatitud(), ubicacion.getLongitud()));
-                btnRegVivienda.setText("Registrar Vivienda");
-                break;
-            case "BAD_REQUEST El id indicado no fue encontrado":
-            case "BAD_REQUEST El id indicado no fue encontrado, ":
-                mostrarMensaje("Error: No hay documento de Dueño asignado");
-                break;
-            case "BAD_REQUEST Campo obligatorio inválido: direccion":
-            case "BAD_REQUEST Campo obligatorio inválido: barrio":
-                mostrarMensaje("Los campos Direccion y Barrio son requeridos");
-                break;
-            default:
-                mostrarMensaje("Error al Registrar");
+        try {
+            UbicacionDto ubicacion = desp.validarUbicacion(documento, direccion, barrio);
+            mostrarMensaje("Ubicación hallada");
+            txtDirVivienda.setEnabled(false);
+            txtZonaVivienda.setEnabled(false);
+            txtBarrioVivienda.setEnabled(false);
+            txtUbicacion.setText(String.format("%s : %s", ubicacion.getLatitud(), ubicacion.getLongitud()));
+            btnRegVivienda.setText("Registrar Vivienda");
+        } catch (DuenioIdNotFoundException | UbicacionFieldInvalidException e) {
+            System.out.println("BAD_REQUEST " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
         }
     }
 

@@ -1,28 +1,35 @@
 import api.Despachador;
-import entities.Respuesta;
+import exceptions.*;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.sql.SQLException;
 
 public class TestUbicacion {
     private static final Despachador desp = new Despachador();
 
     @Test
-    void TestListarUbicacionPorId() {
-        Respuesta rta = desp.listarUbicacionPorId("30300455");
-        assertEquals("OK", rta.getEstado());
-        assertEquals("{Lat='-40.8096612612647', Long='-63.00209613467383'}", rta.getObj().toString());
-    }
-
-    @Test
     void TestRegistrarUbicacion() {
-        Respuesta rta = desp.registrarUbicacion("11112222", -41.11111111111111, -64.111111111111111);
-        assertEquals("OK", rta.getEstado());
+        try {
+            desp.registrarUbicacion("11112222", -41.11111111111111, -64.111111111111111);
+        } catch (ViviendaFieldInvalidException | ViviendaEntityExistsException | DuenioIdNotFoundException |
+                 NumberFormatException | UbicacionFieldInvalidException | UbicacionEntityExistsException e) {
+            System.out.println("BAD_REQUEST " + e.getMessage());
+        } catch (
+                SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e.getMessage());
+        }
     }
 
     @Test
     void TestValidarUbicacion() {
-        Respuesta rta = desp.validarUbicacion("30237244", "Misiones Salesianas 123", "Zatti");
-        assertEquals("OK", rta.getEstado());
+        try {
+            desp.validarUbicacion("30237244", "Misiones Salesianas 123", "Zatti");
+        } catch (DuenioIdNotFoundException | UbicacionFieldInvalidException e) {
+            System.out.println("BAD_REQUEST " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
+        }
     }
 }

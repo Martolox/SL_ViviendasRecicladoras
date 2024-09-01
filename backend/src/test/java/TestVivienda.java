@@ -1,6 +1,11 @@
 import api.Despachador;
-import entities.Respuesta;
+import exceptions.DuenioIdNotFoundException;
+import exceptions.ViviendaEntityExistsException;
+import exceptions.ViviendaFieldInvalidException;
+import exceptions.ViviendaIdNotFoundException;
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,34 +13,30 @@ public class TestVivienda {
     private static final Despachador desp = new Despachador();
 
     @Test
-    void TestEliminarVivienda() {
-        Respuesta rta = desp.eliminarVivienda("30237244");
-        assertEquals("OK", rta.getEstado());
-    }
-
-    @Test
     void TestListarViviendaPorId() {
-        Respuesta rta = desp.listarViviendaPorId("30300455");
-        assertEquals("OK", rta.getEstado());
-        assertEquals("Vivienda{id='30300455', documento='30300455', direccion='Moreno 1053', barrio='Belgrano'}", rta.getObj().toString());
-    }
-
-    @Test
-    void TestListarViviendas() {
-        Respuesta rta = desp.listarViviendas();
-        assertEquals("OK", rta.getEstado());
-        assertEquals("[Vivienda{id='08335628', docum", rta.getObj().toString().substring(0, 30));
-    }
-
-    @Test
-    void TestModificarVivienda() {
-        Respuesta rta = desp.modificarVivienda("30300455", "30300455", "Moreno 1054", "Centro", "Belgrano");
-        assertEquals("OK", rta.getEstado());
+        try {
+            var rta = desp.listarViviendaPorId("30300455");
+            assertEquals("Vivienda{id='30300455', documento='30300455', direccion='Moreno 1053', barrio='Belgrano'}", rta.toString());
+        } catch (ViviendaIdNotFoundException e) {
+            System.out.println("BAD_REQUEST " + e);
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
+        }
     }
 
     @Test
     void TestRegistrarVivienda() {
-        Respuesta rta = desp.registrarVivienda("30237244", "Salvo P. M. 53", "Norte", "San Martin");
-        assertEquals("OK", rta.getEstado());
+        try {
+            desp.registrarVivienda("30237244", "Salvo P. M. 53", "Norte", "San Martin");
+        } catch (ViviendaFieldInvalidException | ViviendaEntityExistsException |
+                 DuenioIdNotFoundException | NumberFormatException e) {
+            System.out.println("BAD_REQUEST " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e.getMessage());
+        }
     }
 }

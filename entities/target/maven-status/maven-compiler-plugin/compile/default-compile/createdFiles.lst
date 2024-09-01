@@ -3,8 +3,6 @@ entities\Ubicacion.class
 dtos\DuenioDto.class
 entities\Duenio.class
 entities\Campania.class
-entities\Coordenada.class
-entities\Respuesta.class
 entities\Inscripcion.class
 entities\Visita.class
 dtos\OrdenDto.class
@@ -14,6 +12,5 @@ dtos\InscripcionDto.class
 dtos\ViviendaDto.class
 dtos\VisitaDto.class
 dtos\CampaniaDto.class
-entities\Usuario.class
 dtos\PersonalDto.class
 entities\Vivienda.class
