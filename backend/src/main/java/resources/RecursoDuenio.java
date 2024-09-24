@@ -4,7 +4,6 @@ import controllers.ControladorDuenio;
 import dtos.DuenioDto;
 import exceptions.DuenioFieldInvalidException;
 import exceptions.DuenioIdNotFoundException;
-import exceptions.PersonalFieldInvalidException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -48,13 +47,13 @@ public class RecursoDuenio {
             try {
                 Long.parseLong(telefono);
             } catch (NumberFormatException e) {
-                throw new DuenioFieldInvalidException("telefono debe ser numérico");
+                throw new DuenioFieldInvalidException("Telefono debe ser numérico.");
             }
         }
         try {
             Integer.parseInt(dni);
         } catch (NumberFormatException e) {
-            throw new PersonalFieldInvalidException("documento debe ser numérico");
+            throw new DuenioFieldInvalidException("Documento debe ser numérico.");
         }
     }
 }

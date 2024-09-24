@@ -18,7 +18,7 @@ public class TestCampania {
         } catch (SQLException e) {
             System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -33,7 +33,7 @@ public class TestCampania {
         } catch (SQLException e) {
             System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 }

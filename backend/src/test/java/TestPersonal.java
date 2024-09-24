@@ -31,7 +31,7 @@ public class TestPersonal {
         } catch (SQLException e) {
             System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -45,7 +45,7 @@ public class TestPersonal {
         } catch (SQLException e) {
             System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -57,7 +57,7 @@ public class TestPersonal {
         } catch (SQLException e) {
             System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -71,7 +71,7 @@ public class TestPersonal {
         } catch (SQLException e) {
             System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -88,35 +88,7 @@ public class TestPersonal {
                 System.out.println("Error de conexión SQL: " + e);
             }
         } catch (Exception e) {
-            System.out.println("Error inesperado: " + e.getMessage());
+            System.out.println("ERROR " + e.getMessage());
         }
     }
-
-//    @Test
-//    void TestRegistrarPersonal_FaltanDatos() {
-//        Respuesta rta = desp.registrarPersonal("", "Garcia", "12345678");
-//        assertEquals("BAD_REQUEST org.unrn.exceptions.PersonalFieldInvalidException:" +
-//                " Campo obligatorio inválido: nombre", rta.getEstado());
-//    }
-//
-//    @Test
-//    void TestRegistrarPersonal_DocNoNumerico() {
-//        Respuesta rta = desp.registrarPersonal("Juan", "Garcia", "a2345678");
-//        assertEquals("BAD_REQUEST java.lang.NumberFormatException:" +
-//                " For input string: \"a2345678\"", rta.getEstado());
-//    }
-//
-//    @Test
-//    void TestRegistrarPersonal_DocLongErronea() {
-//        Respuesta rta = desp.registrarPersonal("Juan", "Garcia", "123456789");
-//        assertEquals("BAD_REQUEST org.unrn.exceptions.PersonalFieldInvalidException:" +
-//                " Campo obligatorio inválido: documento", rta.getEstado());
-//    }
-//
-//    @Test
-//    void TestRegistrarPersonal_IdDuplicado() {
-//        Respuesta rta = desp.registrarPersonal("", "Garcia", "12345678");
-//        assertEquals("BAD_REQUEST org.unrn.exceptions.PersonalFieldInvalidException:" +
-//                " Campo obligatorio inválido: nombre", rta.getEstado());
-//    }
 }

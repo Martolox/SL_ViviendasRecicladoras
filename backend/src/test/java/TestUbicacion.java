@@ -29,7 +29,7 @@ public class TestUbicacion {
         } catch (DuenioIdNotFoundException | UbicacionFieldInvalidException e) {
             System.out.println("BAD_REQUEST " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 }
