@@ -42,12 +42,12 @@ registro de las viviendas que estén dispuestas a separar residuos reciclables.
 
 ### Diagrama de Casos de Uso
 
-![Caso de Uso 1](/img/Diagrama CU.png)
+![Caso de Uso 1](/img/Diagrama_CU.png)
 
 ### Diagrama de Clases
 
-![Diagrama de Clases 1](/img/Diagrama de Clases.png)
+![Diagrama de Clases 1](/img/Diagrama_de_Clases.png)
 
 ### Diagrama Conceptual
 
-![Diagrama de Clases 2](/img/Diagrama Conceptual.png)
+![Diagrama de Clases 2](/img/Diagrama_Conceptual.png)
