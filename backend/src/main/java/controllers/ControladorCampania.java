@@ -31,7 +31,7 @@ public class ControladorCampania {
     }
 
     public void cambiarPuntos(String id, String beneficio) throws SQLException {
-        CampaniaDto camp = campaniaDao.listarPorId(id);
+        CampaniaDto camp = new CampaniaDto(campaniaDao.listarPorId(id));
         if (camp.getPuntos() > puntaje.get(beneficio)) {
             int puntos = camp.getPuntos() - puntaje.get(beneficio);
             String nuevoBenef = camp.getBeneficios() + "\n" + descripcion.get(beneficio);
@@ -46,7 +46,7 @@ public class ControladorCampania {
     }
 
     public CampaniaDto listarPorId(String id) throws SQLException {
-        return campaniaDao.listarPorId(id);
+        return new CampaniaDto(campaniaDao.listarPorId(id));
     }
 
     public List<CampaniaDto> listar() throws SQLException {

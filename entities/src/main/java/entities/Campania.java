@@ -2,8 +2,8 @@ package entities;
 
 public class Campania {
     private String duenio;
-    private int puntos;
-    private String beneficios;
+    private final int puntos;
+    private final String beneficios;
 
     public Campania(String duenio, int puntos, String beneficios) {
         this.duenio = duenio;
@@ -25,13 +25,5 @@ public class Campania {
 
     public void setDuenio(String duenio) {
         this.duenio = duenio;
-    }
-
-    public void setPuntos(int puntos) {
-        this.puntos = puntos;
-    }
-
-    public void setBeneficios(String beneficios) {
-        this.beneficios = beneficios;
     }
 }

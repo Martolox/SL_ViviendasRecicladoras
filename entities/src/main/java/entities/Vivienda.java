@@ -1,5 +1,7 @@
 package entities;
 
+import exceptions.ViviendaFieldInvalidException;
+
 public class Vivienda {
     private String id;
     private String documento;
@@ -7,12 +9,21 @@ public class Vivienda {
     private String zona;
     private String barrio;
 
+    public Vivienda(String id, String direccion, String zona, String barrio) {
+        this.id = id;
+        this.direccion = direccion;
+        this.zona = zona;
+        this.barrio = barrio;
+        validarCampos();
+    }
+
     public Vivienda(String id, String documento, String direccion, String zona, String barrio) {
         this.id = id;
         this.documento = documento;
         this.direccion = direccion;
         this.zona = zona;
         this.barrio = barrio;
+        validarCampos();
     }
 
     public String getId() {
@@ -53,5 +64,18 @@ public class Vivienda {
 
     public void setBarrio(String barrio) {
         this.barrio = barrio;
+    }
+
+    private void validarCampos() {
+        if (id == null || id.isEmpty() || id.length() > 8) {
+            throw new ViviendaFieldInvalidException("id");
+        }
+        if (direccion == null || direccion.isEmpty()) {
+            throw new ViviendaFieldInvalidException("direccion");
+        }
+        if (barrio == null || barrio.isEmpty()) {
+            throw new ViviendaFieldInvalidException("barrio");
+        }
+        Integer.parseInt(id);
     }
 }

@@ -40,12 +40,14 @@ registro de las viviendas que estén dispuestas a separar residuos reciclables.
   cantidad de puntos que acumuló cada ciudadano y la posibilidad de canjear los
   puntos en un catálogo que brindará el sistema.
 
-### Diagramas de Casos de Uso
+### Diagrama de Casos de Uso
 
-![Caso de Uso 1](/img/Diagrama_CU-Documentacion.png)
-![Caso de Uso 2](/img/Diagrama_CU-Referencia.png)
+![Caso de Uso 1](/img/Diagrama CU.png)
 
-### Diagramas de Clase
+### Diagrama de Clases
 
-![Diagrama de Clases 1](/img/Diagrama_de_Clases-Referencia.png)
-![Diagrama de Clases 2](/img/Diagrama_de_Clases1.png)
+![Diagrama de Clases 1](/img/Diagrama de Clases.png)
+
+### Diagrama Conceptual
+
+![Diagrama de Clases 2](/img/Diagrama Conceptual.png)

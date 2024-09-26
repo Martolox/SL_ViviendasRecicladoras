@@ -1,7 +1,7 @@
 package daos;
 
 import api.Conexion;
-import dtos.VisitaDto;
+import entities.Visita;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,15 +16,15 @@ public class VisitaDao {
     PreparedStatement ps;
     ResultSet rs;
 
-    public List<VisitaDto> listarPorId(String id) throws SQLException {
-        List<VisitaDto> lista = new ArrayList<>();
+    public List<Visita> listarPorId(String id) throws SQLException {
+        List<Visita> lista = new ArrayList<>();
         con = cn.getConnection();
         String sql = "SELECT * FROM visita WHERE id_orden = ?";
         ps = con.prepareStatement(sql);
         ps.setString(1, id);
         rs = ps.executeQuery();
         while (rs.next()) {
-            VisitaDto v = new VisitaDto(rs.getString("id_orden"),
+            Visita v = new Visita(rs.getString("id_orden"),
                     rs.getString("fecha_visita"),
                     rs.getString("obs_visita"));
             lista.add(v);

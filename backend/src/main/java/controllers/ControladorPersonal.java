@@ -28,7 +28,7 @@ public class ControladorPersonal {
     }
 
     public PersonalDto listarPorId(String dni) throws SQLException {
-        return personalDao.listarPorId(dni);
+        return new PersonalDto(personalDao.listarPorId(dni));
     }
 
     public List<PersonalDto> listar() throws SQLException {
@@ -40,12 +40,13 @@ public class ControladorPersonal {
         return listaDto;
     }
 
-    public void modificar(String nombre, String apellido, String dni) throws SQLException {
-        if (personalDao.listarPorId(dni) == null) throw new PersonalIdNotFoundException(dni);
-        personalDao.modificar(nombre, apellido, dni);
+    public void modificar(Personal p) throws SQLException {
+        if (personalDao.listarPorId(p.getDocPersonal()) == null)
+            throw new PersonalIdNotFoundException(p.getDocPersonal());
+        personalDao.modificar(p);
     }
 
-    public boolean registrar(String nombre, String apellido, String dni) throws SQLException {
-        return personalDao.registrar(nombre, apellido, dni);
+    public boolean registrar(Personal p) throws SQLException {
+        return personalDao.registrar(p);
     }
 }

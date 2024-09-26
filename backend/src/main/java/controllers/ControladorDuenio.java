@@ -22,7 +22,7 @@ public class ControladorDuenio {
     }
 
     public DuenioDto listarPorId(String dni) throws SQLException {
-        return duenioDao.listarPorId(dni);
+        return new DuenioDto(duenioDao.listarPorId(dni));
     }
 
     public List<DuenioDto> listar() throws SQLException {
@@ -34,11 +34,7 @@ public class ControladorDuenio {
         return listaDto;
     }
 
-    public void modificar(String nombre, String apellido, String dni, String correo, String telefono) throws SQLException {
-        duenioDao.modificar(nombre, apellido, dni, correo, telefono);
-    }
-
-    public boolean registrar(String nombre, String apellido, String dni, String correo, String telefono) throws SQLException {
-        return duenioDao.registrar(nombre, apellido, dni, correo, telefono);
+    public boolean registrar(Duenio d) throws SQLException {
+        return duenioDao.registrar(d);
     }
 }

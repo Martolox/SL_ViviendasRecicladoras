@@ -26,7 +26,7 @@ public class ControladorVivienda {
     }
 
     public ViviendaDto listarPorId(String id) throws SQLException {
-        return viviendaDao.listarPorId(id);
+        return new ViviendaDto(viviendaDao.listarPorId(id));
     }
 
     public List<ViviendaDto> listar() throws SQLException {
@@ -40,11 +40,11 @@ public class ControladorVivienda {
 
     public void modificar(String id, String direccion, String zona, String barrio) throws SQLException {
         if (viviendaDao.listarPorId(id) == null) throw new ViviendaIdNotFoundException(id);
-        viviendaDao.modificar(id, direccion, zona, barrio);
+        viviendaDao.modificar(new Vivienda(id, direccion, zona, barrio));
     }
 
-    public boolean registrar(String id, String direccion, String zona, String barrio) throws SQLException {
-        if (duenioDao.listarPorId(id) == null) throw new DuenioIdNotFoundException(id);
-        return viviendaDao.registrar(id, direccion, zona, barrio);
+    public boolean registrar(Vivienda v) throws SQLException {
+        if (duenioDao.listarPorId(v.getId()) == null) throw new DuenioIdNotFoundException(v.getId());
+        return viviendaDao.registrar(v);
     }
 }

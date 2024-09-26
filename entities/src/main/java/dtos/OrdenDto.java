@@ -7,13 +7,13 @@ public class OrdenDto {
     private String duenio;
     private String personal;
     private String fecha;
-    private String estado;
-    private float plastico;
-    private float papel;
-    private float vidrio;
-    private float metal;
-    private boolean vehiculoPesado;
-    private String observacion;
+    private final String estado;
+    private final float plastico;
+    private final float papel;
+    private final float vidrio;
+    private final float metal;
+    private final boolean vehiculoPesado;
+    private final String observacion;
     private String direccion;
 
     public OrdenDto(Orden orden) {
@@ -110,34 +110,6 @@ public class OrdenDto {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public void setPlastico(float plastico) {
-        this.plastico = plastico;
-    }
-
-    public void setPapel(float papel) {
-        this.papel = papel;
-    }
-
-    public void setVidrio(float vidrio) {
-        this.vidrio = vidrio;
-    }
-
-    public void setMetal(float metal) {
-        this.metal = metal;
-    }
-
-    public void setVehiculoPesado(boolean vehiculoPesado) {
-        this.vehiculoPesado = vehiculoPesado;
-    }
-
-    public void setObservacion(String observacion) {
-        this.observacion = observacion;
     }
 
     public void setDireccion(String direccion) {

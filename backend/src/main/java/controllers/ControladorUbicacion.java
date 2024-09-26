@@ -2,6 +2,7 @@ package controllers;
 
 import daos.UbicacionDao;
 import dtos.UbicacionDto;
+import entities.Ubicacion;
 import exceptions.UbicacionEntityExistsException;
 
 import java.sql.SQLException;
@@ -15,12 +16,13 @@ public class ControladorUbicacion {
     }
 
     public UbicacionDto listarPorId(String id) throws SQLException {
-        return ubicacionDao.listarPorId(id);
+        return new UbicacionDto(ubicacionDao.listarPorId(id));
     }
 
-    public boolean registrar(String id, double latitud, double longitud) throws SQLException {
-        if (ubicacionDao.listarPorId(id) != null) throw new UbicacionEntityExistsException(id);
-        return ubicacionDao.registrar(id, latitud, longitud);
+    public boolean registrar(Ubicacion u) throws SQLException {
+        if (ubicacionDao.listarPorId(u.getIdUbicacion()) != null)
+            throw new UbicacionEntityExistsException(u.getIdUbicacion());
+        return ubicacionDao.registrar(u);
     }
 
     public UbicacionDto validar(String direccion) {
@@ -28,6 +30,6 @@ public class ControladorUbicacion {
         Random randomNumbers = new Random();
         double latitud = -40.810376207395485 + randomNumbers.nextFloat() * 0.1;
         double longitud = -63.006517432922706 + randomNumbers.nextFloat() * 0.1;
-        return new UbicacionDto("", latitud, longitud);
+        return new UbicacionDto(latitud, longitud);
     }
 }

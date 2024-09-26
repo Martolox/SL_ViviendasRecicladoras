@@ -7,13 +7,13 @@ public class InscripcionDto {
     private String documento;
     private String nombre;
     private String apellido;
-    private String correo;
-    private String telefono;
+    private final String correo;
+    private final String telefono;
     private String direccion;
     private String zona;
     private String barrio;
-    private String latitud;
-    private String longitud;
+    private final String latitud;
+    private final String longitud;
     private String fecha;
 
     public InscripcionDto(Inscripcion i) {
@@ -28,21 +28,6 @@ public class InscripcionDto {
         this.latitud = i.getLatitud();
         this.longitud = i.getLongitud();
         this.fecha = i.getFecha();
-    }
-
-    public InscripcionDto(String documento, String nombre, String apellido, String correo, String telefono,
-                          String direccion, String zona, String barrio, String latitud, String longitud, String fecha) {
-        this.documento = documento;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.correo = correo;
-        this.telefono = telefono;
-        this.direccion = direccion;
-        this.zona = zona;
-        this.barrio = barrio;
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.fecha = fecha;
     }
 
     public int getId() {
@@ -109,14 +94,6 @@ public class InscripcionDto {
         this.apellido = apellido;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
@@ -127,14 +104,6 @@ public class InscripcionDto {
 
     public void setBarrio(String barrio) {
         this.barrio = barrio;
-    }
-
-    public void setLatitud(String latitud) {
-        this.latitud = latitud;
-    }
-
-    public void setLongitud(String longitud) {
-        this.longitud = longitud;
     }
 
     public void setFecha(String fecha) {

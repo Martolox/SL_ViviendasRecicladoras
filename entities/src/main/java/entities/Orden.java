@@ -1,5 +1,10 @@
 package entities;
 
+import exceptions.DuenioIdNotFoundException;
+import exceptions.OrdenFieldInvalidException;
+import exceptions.PersonalIdNotFoundException;
+import exceptions.VisitaFieldInvalidException;
+
 public class Orden {
     private int id;
     private String duenio;
@@ -13,6 +18,25 @@ public class Orden {
     private boolean vehiculoPesado;
     private String observacion;
     private String direccion;
+
+    public Orden(String orden, String estado, String observacion) {
+        this.id = Integer.parseInt(orden);
+        this.estado = estado;
+        this.observacion = observacion;
+        validarCamposParaVisita();
+    }
+
+    public Orden(String duenio, float plastico, float papel, float vidrio, float metal,
+                 boolean vehiculoPesado, String observacion) {
+        this.duenio = duenio;
+        this.plastico = plastico;
+        this.papel = papel;
+        this.vidrio = vidrio;
+        this.metal = metal;
+        this.vehiculoPesado = vehiculoPesado;
+        this.observacion = observacion;
+        validarCampos();
+    }
 
     public Orden(int id, String duenio, String personal, String fecha, String estado, float plastico, float papel,
                  float vidrio, float metal, boolean vehiculoPesado, String observacion, String direccion) {
@@ -28,6 +52,7 @@ public class Orden {
         this.vehiculoPesado = vehiculoPesado;
         this.observacion = observacion;
         this.direccion = direccion;
+        validarCampos();
     }
 
     public int getId() {
@@ -98,31 +123,26 @@ public class Orden {
         this.estado = estado;
     }
 
-    public void setPlastico(float plastico) {
-        this.plastico = plastico;
-    }
-
-    public void setPapel(float papel) {
-        this.papel = papel;
-    }
-
-    public void setVidrio(float vidrio) {
-        this.vidrio = vidrio;
-    }
-
-    public void setMetal(float metal) {
-        this.metal = metal;
-    }
-
-    public void setVehiculoPesado(boolean vehiculoPesado) {
-        this.vehiculoPesado = vehiculoPesado;
-    }
-
     public void setObservacion(String observacion) {
         this.observacion = observacion;
     }
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    private void validarCamposParaVisita() {
+        if (estado == null || estado.isEmpty()) {
+            throw new VisitaFieldInvalidException("nombre");
+        }
+    }
+
+    private void validarCampos() throws OrdenFieldInvalidException {
+        if (duenio == null || duenio.isEmpty() || duenio.length() > 8) {
+            throw new DuenioIdNotFoundException("duenio");
+        }
+        if (personal == null || personal.isEmpty() || personal.length() > 8) {
+            throw new PersonalIdNotFoundException("personal");
+        }
     }
 }

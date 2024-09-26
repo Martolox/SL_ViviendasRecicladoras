@@ -32,7 +32,7 @@ public class ControladorOrden {
     }
 
     public OrdenDto listarPorId(int id) throws SQLException {
-        return ordenDao.listarPorId(id);
+        return new OrdenDto(ordenDao.listarPorId(id));
     }
 
     public List<OrdenDto> listar() throws SQLException {
@@ -59,17 +59,11 @@ public class ControladorOrden {
         return txt;
     }
 
-    public void modificar(int id, String duenio, String personal, String estado, float plastico, float papel,
-                          float vidrio, float metal, boolean vehiculoPesado, String observacion) throws SQLException {
-        if (ordenDao.listarPorId(id) == null) throw new OrdenIdNotFoundException(id);
-        ordenDao.modificar(id, duenio, personal, estado, plastico, papel, vidrio, metal, vehiculoPesado, observacion);
-    }
-
-    public boolean registrar(String duenio, float plastico, float papel, float vidrio, float metal,
-                             boolean vehiculoPesado, String observacion) throws SQLException {
+    public boolean registrar(Orden o) throws SQLException {
         var lista = personalDao.listar();
         Random rand = new Random();
         String personal = lista.get(rand.nextInt(lista.size())).getDocPersonal();
-        return ordenDao.registrar(duenio, personal, "PENDIENTE", plastico, papel, vidrio, metal, vehiculoPesado, observacion);
+        o.setEstado("PENDIENTE");
+        return ordenDao.registrar(o);
     }
 }

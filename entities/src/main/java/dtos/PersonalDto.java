@@ -3,9 +3,9 @@ package dtos;
 import entities.Personal;
 
 public class PersonalDto {
-    private String nomPersonal;
-    private String apePersonal;
-    private String docPersonal;
+    private final String nomPersonal;
+    private final String apePersonal;
+    private final String docPersonal;
 
     public PersonalDto(Personal personal) {
         this.nomPersonal = personal.getNomPersonal();
@@ -29,18 +29,6 @@ public class PersonalDto {
 
     public String getDocPersonal() {
         return docPersonal;
-    }
-
-    public void setNomPersonal(String nomPersonal) {
-        this.nomPersonal = nomPersonal;
-    }
-
-    public void setApePersonal(String apePersonal) {
-        this.apePersonal = apePersonal;
-    }
-
-    public void setDocPersonal(String docPersonal) {
-        this.docPersonal = docPersonal;
     }
 
     public String comparacion() {

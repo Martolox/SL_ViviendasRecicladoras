@@ -34,4 +34,5 @@ public class Visita {
     public void setObservacion(String observacion) {
         this.observacion = observacion;
     }
+
 }
