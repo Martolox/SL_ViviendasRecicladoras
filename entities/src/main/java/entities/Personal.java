@@ -1,14 +1,17 @@
 package entities;
 
+import exceptions.PersonalFieldInvalidException;
+
 public class Personal {
-    private String nomPersonal;
-    private String apePersonal;
-    private String docPersonal;
+    private final String nomPersonal;
+    private final String apePersonal;
+    private final String docPersonal;
 
     public Personal(String nomPersonal, String apePersonal, String docPersonal) {
         this.nomPersonal = nomPersonal;
         this.apePersonal = apePersonal;
         this.docPersonal = docPersonal;
+        validarCampos();
     }
 
     public String getNomPersonal() {
@@ -23,15 +26,20 @@ public class Personal {
         return docPersonal;
     }
 
-    public void setNomPersonal(String nomPersonal) {
-        this.nomPersonal = nomPersonal;
-    }
-
-    public void setApePersonal(String apePersonal) {
-        this.apePersonal = apePersonal;
-    }
-
-    public void setDocPersonal(String docPersonal) {
-        this.docPersonal = docPersonal;
+    private void validarCampos() {
+        if (nomPersonal == null || nomPersonal.isEmpty()) {
+            throw new PersonalFieldInvalidException("nombre");
+        }
+        if (apePersonal == null || apePersonal.isEmpty()) {
+            throw new PersonalFieldInvalidException("apellido");
+        }
+        if (docPersonal == null || docPersonal.isEmpty() || docPersonal.length() > 8) {
+            throw new PersonalFieldInvalidException("documento");
+        }
+        try {
+            Integer.parseInt(docPersonal);
+        } catch (NumberFormatException e) {
+            throw new PersonalFieldInvalidException("documento debe ser numérico");
+        }
     }
 }

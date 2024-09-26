@@ -4,8 +4,8 @@ import entities.Campania;
 
 public class CampaniaDto {
     private String duenio;
-    private int puntos;
-    private String beneficios;
+    private final int puntos;
+    private final String beneficios;
 
     public CampaniaDto(Campania campania) {
         this.duenio = campania.getDuenio();
@@ -33,14 +33,6 @@ public class CampaniaDto {
 
     public void setDuenio(String duenio) {
         this.duenio = duenio;
-    }
-
-    public void setPuntos(int puntos) {
-        this.puntos = puntos;
-    }
-
-    public void setBeneficios(String beneficios) {
-        this.beneficios = beneficios;
     }
 
     @Override

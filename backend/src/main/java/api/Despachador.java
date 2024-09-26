@@ -1,152 +1,179 @@
 package api;
 
+import controllers.*;
 import dtos.*;
-import resources.*;
+import entities.*;
+import exceptions.*;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class Despachador implements ServidorAPI {
-    private final RecursoCampania recursoCampania;
-    private final RecursoDuenio recursoDuenio;
-    private final RecursoInscripcion recursoInscripcion;
-    private final RecursoOrden recursoOrden;
-    private final RecursoPersonal recursoPersonal;
-    private final RecursoUbicacion recursoUbicacion;
-    private final RecursoVivienda recursoVivienda;
-    private final RecursoVisita recursoVisita;
-
-
-    public Despachador() {
-        this.recursoCampania = new RecursoCampania();
-        this.recursoDuenio = new RecursoDuenio();
-        this.recursoInscripcion = new RecursoInscripcion();
-        this.recursoOrden = new RecursoOrden();
-        this.recursoPersonal = new RecursoPersonal();
-        this.recursoUbicacion = new RecursoUbicacion();
-        this.recursoVivienda = new RecursoVivienda();
-        this.recursoVisita = new RecursoVisita();
-    }
 
     @Override
     public void cambiarPuntos(String id, String beneficio) throws SQLException {
-        recursoCampania.cambiarPuntos(id, beneficio);
+        new ControladorCampania().cambiarPuntos(id, beneficio);
     }
 
     @Override
     public CampaniaDto listarCampaniaPorId(String id) throws SQLException {
-        return recursoCampania.listarPorId(id);
+        Optional<CampaniaDto> optional = Optional.ofNullable(new ControladorCampania().listarPorId(id));
+        return optional.orElseThrow(CampaniaIdNotFoundException::new);
     }
 
     @Override
     public void eliminarDuenio(String dni) throws SQLException {
-        recursoDuenio.eliminar(dni);
+        validarCampoDni(dni);
+        new ControladorDuenio().eliminar(dni);
     }
 
     @Override
     public DuenioDto listarDuenioPorId(String dni) throws SQLException {
-        return recursoDuenio.listarPorId(dni);
+        Optional<DuenioDto> optional = Optional.ofNullable(new ControladorDuenio().listarPorId(dni));
+        return optional.orElseThrow(DuenioIdNotFoundException::new);
     }
 
     @Override
     public void registrarDuenio(String nombre, String apellido, String dni, String correo, String telefono) throws SQLException {
-        recursoDuenio.registrar(nombre, apellido, dni, correo, telefono);
+        new ControladorDuenio().registrar(new Duenio(nombre, apellido, dni, correo, telefono));
     }
 
     @Override
     public List<InscripcionDto> listarInscripcionPor(String valor) throws SQLException {
-        return recursoInscripcion.listarPor(valor);
+        if (valor.isEmpty()) {
+            return new ControladorInscripcion().listar();
+        } else {
+            return new ControladorInscripcion().listarPor(valor);
+        }
     }
 
     @Override
     public List<InscripcionDto> listarInscripciones() throws SQLException {
-        return recursoInscripcion.listar();
+        return new ControladorInscripcion().listar();
     }
 
     @Override
-    public void modificarInscripcion(String dni, String nombre, String apellido, String correo,
-                                     String telefono, String direccion, String zona, String barrio) throws SQLException {
-        recursoInscripcion.modificar(dni, nombre, apellido, correo, telefono, direccion, zona, barrio);
+    public void modificarInscripcion(String dni, String nombre, String apellido, String correo, String telefono,
+                                     String direccion, String zona, String barrio) throws SQLException {
+        new ControladorInscripcion().modificar(new Inscripcion(dni, nombre, apellido, correo, telefono, direccion, zona, barrio));
     }
 
     @Override
     public List<OrdenDto> listarOrdenPor(String valor) throws SQLException {
-        return recursoOrden.listarPor(valor);
+        if (valor.isEmpty()) {
+            return new ControladorOrden().listar();
+        } else {
+            return new ControladorOrden().listarPor(valor);
+        }
     }
 
     @Override
     public List<OrdenDto> listarOrdenes() throws SQLException {
-        return recursoOrden.listar();
+        return new ControladorOrden().listar();
+    }
+
+    @Override
+    public String listarOrdenesMC(String dni) throws SQLException {
+        validarCampoDni(dni);
+        return new ControladorOrden().listarOrdenesMC(dni);
     }
 
     @Override
     public void registrarOrden(String duenio, String plastico, String papel, String vidrio, String metal,
                                boolean vehiculoPesado, String observacion) throws SQLException {
-        recursoOrden.registrar(duenio, plastico, papel, vidrio, metal, vehiculoPesado, observacion);
+        if (!new ControladorOrden().registrar(new Orden(duenio, Float.parseFloat(plastico), Float.parseFloat(papel),
+                Float.parseFloat(vidrio), Float.parseFloat(metal), vehiculoPesado, observacion))) {
+            throw new OrdenEntityExistsException(duenio);
+        }
     }
 
     @Override
     public void eliminarPersonal(String dni) throws SQLException {
-        recursoPersonal.eliminar(dni);
+        validarCampoDni(dni);
+        new ControladorPersonal().eliminar(dni);
     }
 
     @Override
     public List<PersonalDto> listarPersonalPor(String valor) throws SQLException {
-        return recursoPersonal.listarPor(valor);
+        if (valor.isEmpty()) {
+            return new ControladorPersonal().listar();
+        } else {
+            return new ControladorPersonal().listarPor(valor);
+        }
     }
 
     @Override
     public PersonalDto listarPersonalPorId(String dni) throws SQLException {
-        return recursoPersonal.listarPorId(dni);
+        Optional<PersonalDto> optional = Optional.ofNullable(new ControladorPersonal().listarPorId(dni));
+        return optional.orElseThrow(PersonalIdNotFoundException::new);
     }
 
     @Override
     public List<PersonalDto> listarPersonal() throws SQLException {
-        return recursoPersonal.listar();
+        return new ControladorPersonal().listar();
     }
 
     @Override
     public void modificarPersonal(String nombre, String apellido, String documento) throws SQLException {
-        recursoPersonal.modificar(nombre, apellido, documento);
+        new ControladorPersonal().modificar(new Personal(nombre, apellido, documento));
     }
 
     @Override
     public void registrarPersonal(String nombre, String apellido, String documento) throws SQLException {
-        recursoPersonal.registrar(nombre, apellido, documento);
+        new ControladorPersonal().registrar(new Personal(nombre, apellido, documento));
     }
 
     @Override
     public ViviendaDto listarViviendaPorId(String id) throws SQLException {
-        return recursoVivienda.listarPorId(id);
+        Optional<ViviendaDto> optional = Optional.ofNullable(new ControladorVivienda().listarPorId(id));
+        return optional.orElseThrow(ViviendaIdNotFoundException::new);
     }
 
     @Override
     public void registrarVivienda(String id, String direccion, String zona, String barrio) throws SQLException {
-        recursoVivienda.registrar(id, direccion, zona, barrio);
+        if (!new ControladorVivienda().registrar(new Vivienda(id, direccion, zona, barrio))) {
+            throw new ViviendaEntityExistsException();
+        }
     }
 
     @Override
     public List<VisitaDto> listarVisitasPorId(String id) throws SQLException {
-        return recursoVisita.listarPorId(id);
+        return new ControladorVisita().listarPorId(id);
     }
 
     @Override
     public void registrarVisita(String orden, String estado, String observacion) throws SQLException {
-        recursoVisita.registrar(orden, estado, observacion);
+        new ControladorVisita().registrar(new Orden(orden, estado, observacion));
     }
 
     @Override
     public void registrarUbicacion(String id, double latitud, double longitud) throws SQLException {
-        recursoUbicacion.registrar(id, latitud, longitud);
+        if (!new ControladorUbicacion().registrar(new Ubicacion(id, latitud, longitud))) {
+            throw new UbicacionEntityExistsException();
+        }
     }
 
     @Override
     public UbicacionDto validarUbicacion(String id, String direccion, String barrio) throws SQLException {
-        return recursoUbicacion.validar(id, direccion, barrio);
+        validarCamposDireccion(direccion, barrio);
+        if (new ControladorDuenio().listarPorId(id) == null) throw new DuenioIdNotFoundException();
+        return new ControladorUbicacion().validar(direccion);
     }
 
-    @Override
-    public String listarOrdenesMC(String dni) throws SQLException {
-        return recursoOrden.listarOrdenesMC(dni);
+    // Validaciones de campos simples
+    private void validarCampoDni(String dni) {
+        if (dni == null || dni.isEmpty() || dni.length() > 8) {
+            throw new DuenioFieldInvalidException("documento");
+        }
+    }
+
+    private void validarCamposDireccion(String direccion, String barrio) {
+        if (direccion == null || direccion.isEmpty()) {
+            throw new UbicacionFieldInvalidException("direccion");
+        }
+        if (barrio == null || barrio.isEmpty()) {
+            throw new UbicacionFieldInvalidException("barrio");
+        }
     }
 }

@@ -1,7 +1,6 @@
 package daos;
 
 import api.Conexion;
-import dtos.ViviendaDto;
 import entities.Vivienda;
 
 import java.sql.Connection;
@@ -29,15 +28,15 @@ public class ViviendaDao {
         }
     }
 
-    public ViviendaDto listarPorId(String id) throws SQLException {
-        ViviendaDto v = null;
+    public Vivienda listarPorId(String id) throws SQLException {
+        Vivienda v = null;
         con = cn.getConnection();
         String sql = "SELECT * FROM vivienda WHERE id_vivienda = ?";
         ps = con.prepareStatement(sql);
         ps.setString(1, id);
         rs = ps.executeQuery();
         while (rs.next()) {
-            v = new ViviendaDto(rs.getString("id_vivienda"),
+            v = new Vivienda(rs.getString("id_vivienda"),
                     rs.getString("dni_duenio"),
                     rs.getString("direccion"),
                     rs.getString("zona"),
@@ -65,32 +64,32 @@ public class ViviendaDao {
         return lista;
     }
 
-    public void modificar(String id, String direccion, String zona, String barrio) throws SQLException {
+    public void modificar(Vivienda v) throws SQLException {
         String sql = "UPDATE vivienda SET direccion=?, zona=?, barrio=? WHERE id_vivienda=?";
         con = cn.getConnection();
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, direccion);
-            ps.setString(2, zona);
-            ps.setString(3, barrio);
-            ps.setString(4, id);
+            ps.setString(1, v.getDireccion());
+            ps.setString(2, v.getZona());
+            ps.setString(3, v.getBarrio());
+            ps.setString(4, v.getId());
             ps.execute();
         } finally {
             cn.getClose();
         }
     }
 
-    public boolean registrar(String id, String direccion, String zona, String barrio) throws SQLException {
+    public boolean registrar(Vivienda v) throws SQLException {
         String sql = "INSERT INTO vivienda VALUES (?,?,?,?,?)";
         con = cn.getConnection();
         boolean res = false;
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, id);
-            ps.setString(2, id);
-            ps.setString(3, direccion);
-            ps.setString(4, zona);
-            ps.setString(5, barrio);
+            ps.setString(1, v.getId());
+            ps.setString(2, v.getId());
+            ps.setString(3, v.getDireccion());
+            ps.setString(4, v.getZona());
+            ps.setString(5, v.getBarrio());
             ps.execute();
             res = true;
         } finally {

@@ -1,7 +1,6 @@
 package daos;
 
 import api.Conexion;
-import dtos.UbicacionDto;
 import entities.Ubicacion;
 
 import java.sql.Connection;
@@ -17,15 +16,15 @@ public class UbicacionDao {
     PreparedStatement ps;
     ResultSet rs;
 
-    public UbicacionDto listarPorId(String id) throws SQLException {
-        UbicacionDto u = null;
+    public Ubicacion listarPorId(String id) throws SQLException {
+        Ubicacion u = null;
         con = cn.getConnection();
         String sql = "SELECT * FROM ubicacion WHERE id_ubicacion = ?";
         ps = con.prepareStatement(sql);
         ps.setString(1, id);
         rs = ps.executeQuery();
         while (rs.next()) {
-            u = new UbicacionDto(rs.getString("id_ubicacion"),
+            u = new Ubicacion(rs.getString("id_ubicacion"),
                     rs.getDouble("longitud"),
                     rs.getDouble("latitud"));
         }
@@ -49,16 +48,16 @@ public class UbicacionDao {
         return lista;
     }
 
-    public boolean registrar(String id, double latitud, double longitud) throws SQLException {
+    public boolean registrar(Ubicacion u) throws SQLException {
         String sql = "INSERT INTO ubicacion (id_ubicacion, dni_duenio, longitud, latitud) VALUES (?,?,?,?)";
         con = cn.getConnection();
         boolean res = false;
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, id);
-            ps.setString(2, id);
-            ps.setDouble(3, latitud);
-            ps.setDouble(4, longitud);
+            ps.setString(1, u.getIdUbicacion());
+            ps.setString(2, u.getIdUbicacion());
+            ps.setDouble(3, u.getLatitud());
+            ps.setDouble(4, u.getLongitud());
             ps.execute();
             res = true;
         } finally {

@@ -4,7 +4,9 @@ import daos.DuenioDao;
 import daos.InscripcionDao;
 import daos.ViviendaDao;
 import dtos.InscripcionDto;
+import entities.Duenio;
 import entities.Inscripcion;
+import entities.Vivienda;
 import exceptions.DuenioIdNotFoundException;
 
 import java.sql.SQLException;
@@ -45,16 +47,9 @@ public class ControladorInscripcion {
         return listaDto;
     }
 
-    public void modificar(String dni, String nombre, String apellido, String correo, String telefono, String direccion,
-                          String zona, String barrio) throws SQLException {
-        if (duenioDao.listarPorId(dni) == null) throw new DuenioIdNotFoundException(dni);
-        duenioDao.modificar(nombre, apellido, dni, correo, telefono);
-        viviendaDao.modificar(dni, direccion, zona, barrio);
-    }
-
-    public boolean registrar(String dni, String nombre, String apellido, String correo, String telefono, String direccion,
-                             String zona, String barrio) throws SQLException {
-        duenioDao.registrar(nombre, apellido, dni, correo, telefono);
-        return viviendaDao.registrar(dni, direccion, zona, barrio);
+    public void modificar(Inscripcion i) throws SQLException {
+        if (duenioDao.listarPorId(i.getDocumento()) == null) throw new DuenioIdNotFoundException(i.getDocumento());
+        duenioDao.modificar(new Duenio(i.getNombre(), i.getApellido(), i.getDocumento(), i.getCorreo(), i.getTelefono()));
+        viviendaDao.modificar(new Vivienda(i.getDocumento(), i.getDireccion(), i.getZona(), i.getBarrio()));
     }
 }

@@ -1,7 +1,7 @@
 package daos;
 
 import api.Conexion;
-import dtos.DuenioDto;
+import entities.Duenio;
 import entities.Inscripcion;
 
 import java.sql.Connection;
@@ -17,15 +17,15 @@ public class InscripcionDao {
     PreparedStatement ps;
     ResultSet rs;
 
-    public DuenioDto listarPorId(String dni) throws SQLException {
-        DuenioDto d = null;
+    public Duenio listarPorId(String dni) throws SQLException {
+        Duenio d = null;
         con = cn.getConnection();
         String sql = "SELECT * FROM duenio WHERE dni_duenio = ?";
         ps = con.prepareStatement(sql);
         ps.setString(1, dni);
         rs = ps.executeQuery();
         while (rs.next()) {
-            d = new DuenioDto(
+            d = new Duenio(
                     rs.getString("dni_duenio"),
                     rs.getString("nom_duenio"),
                     rs.getString("ape_duenio"),

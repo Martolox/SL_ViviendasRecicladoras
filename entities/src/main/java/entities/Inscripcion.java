@@ -1,5 +1,7 @@
 package entities;
 
+import exceptions.InscripcionFieldInvalidException;
+
 public class Inscripcion {
     private String documento;
     private String nombre;
@@ -14,6 +16,19 @@ public class Inscripcion {
     private String fecha;
 
     public Inscripcion(String documento, String nombre, String apellido, String correo, String telefono,
+                       String direccion, String zona, String barrio) {
+        this.documento = documento;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.correo = correo;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.zona = zona;
+        this.barrio = barrio;
+        validarCampos();
+    }
+
+    public Inscripcion(String documento, String nombre, String apellido, String correo, String telefono,
                        String direccion, String zona, String barrio, String latitud, String longitud, String fecha) {
         this.documento = documento;
         this.nombre = nombre;
@@ -26,6 +41,7 @@ public class Inscripcion {
         this.latitud = latitud;
         this.longitud = longitud;
         this.fecha = fecha;
+        validarCampos();
     }
 
     public String getDocumento() {
@@ -114,5 +130,33 @@ public class Inscripcion {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    private void validarCampos() {
+        if (documento == null || documento.isEmpty() || documento.length() > 8) {
+            throw new InscripcionFieldInvalidException("documento");
+        }
+        if (nombre == null || nombre.isEmpty()) {
+            throw new InscripcionFieldInvalidException("nombre");
+        }
+        if (apellido == null || apellido.isEmpty()) {
+            throw new InscripcionFieldInvalidException("apellido");
+        }
+        if (!correo.isEmpty()) {
+            if (!correo.contains("@")) throw new InscripcionFieldInvalidException("correo");
+        }
+        if (telefono.length() > 10) {
+            throw new InscripcionFieldInvalidException("telefono");
+        }
+        if (direccion == null || direccion.isEmpty()) {
+            throw new InscripcionFieldInvalidException("direccion");
+        }
+        if (barrio == null || barrio.isEmpty()) {
+            throw new InscripcionFieldInvalidException("apellido");
+        }
+        if (!telefono.isEmpty()) {
+            Long.parseLong(telefono);
+        }
+        Integer.parseInt(documento);
     }
 }

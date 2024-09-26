@@ -1,7 +1,6 @@
 package daos;
 
 import api.Conexion;
-import dtos.OrdenDto;
 import entities.Orden;
 
 import java.sql.Connection;
@@ -29,8 +28,8 @@ public class OrdenDao {
         }
     }
 
-    public OrdenDto listarPorId(int id) throws SQLException {
-        OrdenDto o = null;
+    public Orden listarPorId(int id) throws SQLException {
+        Orden o = null;
         con = cn.getConnection();
         String sql = "SELECT o.id_orden, o.dni_duenio, o.dni_personal, o.fecha, o.estado, o.plastico, " +
                 "o.papel, o.vidrio, o.metal, o.vehiculo_pesado, o.obs_orden, vivienda.direccion " +
@@ -39,7 +38,7 @@ public class OrdenDao {
         ps.setInt(1, id);
         rs = ps.executeQuery();
         while (rs.next()) {
-            o = new OrdenDto(rs.getInt("id_orden"),
+            o = new Orden(rs.getInt("id_orden"),
                     rs.getString("dni_duenio"),
                     rs.getString("dni_personal"),
                     rs.getString("fecha"),
@@ -121,8 +120,7 @@ public class OrdenDao {
         }
     }
 
-    public boolean registrar(String duenio, String personal, String estado, float plastico,
-                             float papel, float vidrio, float metal, boolean vehiculoPesado, String observacion)
+    public boolean registrar(Orden o)
             throws SQLException {
         String sql = "INSERT INTO orden (`dni_duenio`, `dni_personal`, `estado`, `plastico`, `papel`, `vidrio`," +
                 " `metal`, `vehiculo_pesado`, `obs_orden`) VALUES (?,?,?,?,?,?,?,?,?)";
@@ -130,15 +128,15 @@ public class OrdenDao {
         boolean res = false;
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, duenio);
-            ps.setString(2, personal);
-            ps.setString(3, estado);
-            ps.setFloat(4, plastico);
-            ps.setFloat(5, papel);
-            ps.setFloat(6, vidrio);
-            ps.setFloat(7, metal);
-            ps.setBoolean(8, vehiculoPesado);
-            ps.setString(9, observacion);
+            ps.setString(1, o.getDuenio());
+            ps.setString(2, o.getPersonal());
+            ps.setString(3, o.getEstado());
+            ps.setFloat(4, o.getPlastico());
+            ps.setFloat(5, o.getPapel());
+            ps.setFloat(6, o.getVidrio());
+            ps.setFloat(7, o.getMetal());
+            ps.setBoolean(8, o.isVehiculoPesado());
+            ps.setString(9, o.getObservacion());
             ps.execute();
             res = true;
         } finally {

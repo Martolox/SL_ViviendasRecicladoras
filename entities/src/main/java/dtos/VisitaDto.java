@@ -3,15 +3,9 @@ package dtos;
 import entities.Visita;
 
 public class VisitaDto {
-    private String idOrden;
+    private final String idOrden;
     private String fecha;
-    private String observacion;
-
-    public VisitaDto(String idOrden, String fecha, String observacion) {
-        this.idOrden = idOrden;
-        this.fecha = fecha;
-        this.observacion = observacion;
-    }
+    private final String observacion;
 
     public VisitaDto(Visita visita) {
         this.idOrden = visita.getIdOrden();
@@ -31,16 +25,8 @@ public class VisitaDto {
         return observacion;
     }
 
-    public void setIdOrden(String idOrden) {
-        this.idOrden = idOrden;
-    }
-
     public void setFecha(String fecha) {
         this.fecha = fecha;
-    }
-
-    public void setObservacion(String observacion) {
-        this.observacion = observacion;
     }
 
     @Override

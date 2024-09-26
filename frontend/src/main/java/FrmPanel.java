@@ -2,7 +2,6 @@ import api.Despachador;
 import com.formdev.flatlaf.FlatDarkLaf;
 import dtos.*;
 import exceptions.*;
-import test.Usuario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -19,11 +18,10 @@ import static javax.swing.LayoutStyle.ComponentPlacement.RELATED;
 import static javax.swing.LayoutStyle.ComponentPlacement.UNRELATED;
 
 public class FrmPanel extends JFrame {
-
+    private String DocUsuario = "30237244";
     DefaultTableModel tabla = new DefaultTableModel();
     private static final Despachador desp = new Despachador();
 
-    private final Usuario usuario;
     private Font fntTitulo;
     private Font fntLabel2;
     private Font fntLabel;
@@ -213,7 +211,6 @@ public class FrmPanel extends JFrame {
         cbxEstado.removeAllItems();
         llenarBeneficios();
         llenarEstado();
-        usuario = new Usuario("admin", "admin", "30237244");
     }
 
     private void iniciarComponentes() {
@@ -908,7 +905,7 @@ public class FrmPanel extends JFrame {
         });
         jScrollPane2.setViewportView(tblPersonal);
         jLabel29.setIcon(icoBuscar);
-        jLabel29.setText("Buscar");
+        jLabel29.setText(labels.getString("tabPersonal.Buscar"));
         txtBuscarPersonal.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent evt) {
                 txtBuscarPersonalKeyReleased();
@@ -1357,28 +1354,28 @@ public class FrmPanel extends JFrame {
 
     private void agregarMenuBar() {
         jMenu1.setIcon(imgAdministracion);
-        jMenu1.setText("Administración");
+        jMenu1.setText(labels.getString("menuBar.Administracion"));
         MenuInscripciones.setIcon(imgInscripciones);
-        MenuInscripciones.setText("Inscripciones");
+        MenuInscripciones.setText(labels.getString("menuBar.Inscripciones"));
         MenuInscripciones.setCursor(new Cursor(Cursor.HAND_CURSOR));
         MenuInscripciones.addActionListener(this::menuInscripcionesActionPerformed);
         jMenu1.add(MenuInscripciones);
         MenuPersonal.setIcon(imgPersonal);
-        MenuPersonal.setText("Personal");
+        MenuPersonal.setText(labels.getString("menuBar.Personal"));
         MenuPersonal.setCursor(new Cursor(Cursor.HAND_CURSOR));
         MenuPersonal.addActionListener(this::menuPersonalActionPerformed);
         jMenu1.add(MenuPersonal);
         jMenuBar1.add(jMenu1);
         jMenu2.setIcon(imgRecolectores);
-        jMenu2.setText("Recolectores");
+        jMenu2.setText(labels.getString("menuBar.Recolectores"));
         MenuOrdenes.setIcon(imgOrdenes);
-        MenuOrdenes.setText("Órdenes");
+        MenuOrdenes.setText(labels.getString("menuBar.Ordenes"));
         MenuOrdenes.setCursor(new Cursor(Cursor.HAND_CURSOR));
         MenuOrdenes.addActionListener(this::menuOrdenesActionPerformed);
         jMenu2.add(MenuOrdenes);
         jMenuBar1.add(jMenu2);
         MenuDuenio.setIcon(imgDuenio);
-        MenuDuenio.setText("Dueño");
+        MenuDuenio.setText(labels.getString("menuBar.Duenio"));
         MenuDuenio.setCursor(new Cursor(Cursor.HAND_CURSOR));
         MenuDuenio.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -1387,7 +1384,7 @@ public class FrmPanel extends JFrame {
         });
         jMenuBar1.add(MenuDuenio);
         MenuVivienda.setIcon(imgVivienda);
-        MenuVivienda.setText("Vivienda");
+        MenuVivienda.setText(labels.getString("menuBar.Vivienda"));
         MenuVivienda.setCursor(new Cursor(Cursor.HAND_CURSOR));
         MenuVivienda.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -1396,7 +1393,7 @@ public class FrmPanel extends JFrame {
         });
         jMenuBar1.add(MenuVivienda);
         MenuPedidos.setIcon(imgPedidos);
-        MenuPedidos.setText("Pedidos de Retiro");
+        MenuPedidos.setText(labels.getString("menuBar.Pedidos"));
         MenuPedidos.setCursor(new Cursor(Cursor.HAND_CURSOR));
         MenuPedidos.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -1405,7 +1402,7 @@ public class FrmPanel extends JFrame {
         });
         jMenuBar1.add(MenuPedidos);
         MenuMunicipio.setIcon(imgMC);
-        MenuMunicipio.setText("Municipio Club");
+        MenuMunicipio.setText(labels.getString("menuBar.Municipio"));
         MenuMunicipio.setCursor(new Cursor(Cursor.HAND_CURSOR));
         MenuMunicipio.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -1514,19 +1511,19 @@ public class FrmPanel extends JFrame {
 
     private void btnAgregarVisitaActionPerformed(ActionEvent actionEvent) {
         String id = txtIdOrdenes.getText();
-        if (id.isEmpty()) mostrarMensaje("Seleccione una órden a modificar.");
+        if (id.isEmpty()) mostrarMensaje(labels.getString("msjAgregarVisita"));
         else {
             String estado = Objects.requireNonNull(cbxEstado.getSelectedItem()).toString();
             String observacion = txtObsOrdenes.getText();
             try {
                 desp.registrarVisita(id, estado, observacion);
-                mostrarMensaje("Nota agregada");
+                mostrarMensaje(labels.getString("regVisita.Ok"));
             } catch (UbicacionIdNotFoundException e) {
                 System.out.println("BAD_REQUEST " + e);
             } catch (SQLException e) {
-                System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+                mostrarMensaje(labels.getString("SQLException"));
             } catch (Exception e) {
-                System.out.println("ERROR " + e);
+                System.out.println("ERROR " + e.getMessage());
             }
         }
     }
@@ -1539,16 +1536,16 @@ public class FrmPanel extends JFrame {
         } catch (PersonalIdNotFoundException e) {
             System.out.println("BAD_REQUEST " + e);
         } catch (SQLException e) {
-            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
         listarPuntosMC();
     }
 
     private void btnEliInscActionPerformed(ActionEvent evt) {
         if (txtIdInsc.getText().isEmpty()) {
-            mostrarMensaje("Seleccine una fila");
+            mostrarMensaje(labels.getString("msjEliSinSeleccion"));
         } else {
             int pregunta = pedirConfirmacion(String.format("documento %s", txtIdInsc.getText()));
             if (pregunta == 0) {
@@ -1557,11 +1554,11 @@ public class FrmPanel extends JFrame {
                     limpiarTabla();
                     limpiarInscripcion();
                     listarInscripciones();
-                    mostrarMensaje("Inscripción Eliminada");
+                    mostrarMensaje(labels.getString("eliInscripcion.Ok"));
                 } catch (DuenioFieldInvalidException | DuenioIdNotFoundException | NumberFormatException e) {
                     System.out.println("BAD_REQUEST " + e);
                 } catch (SQLException e) {
-                    System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+                    mostrarMensaje(labels.getString("SQLException"));
                 } catch (Exception e) {
                     System.out.println("ERROR " + e.getMessage());
                 }
@@ -1572,14 +1569,14 @@ public class FrmPanel extends JFrame {
     private void btnEliPersonalActionPerformed(ActionEvent evt) {
         String id = txtIdPersonal.getText();
         if (id.isEmpty()) {
-            mostrarMensaje("Seleccine una fila");
+            mostrarMensaje(labels.getString("msjEliSinSeleccion"));
         } else {
             String nomCompleto = txtNomPersonal.getText() + " " + txtApePersonal.getText();
             int pregunta = pedirConfirmacion(nomCompleto);
             if (pregunta == 0) {
                 try {
                     desp.eliminarPersonal(txtDocPersonal.getText());
-                    mostrarMensaje("Personal eliminado");
+                    mostrarMensaje(labels.getString("msjPersonalEliminado"));
                     limpiarTabla();
                     limpiarPersonal();
                     listarPersonal();
@@ -1587,7 +1584,7 @@ public class FrmPanel extends JFrame {
                 } catch (PersonalFieldInvalidException | PersonalIdNotFoundException | NumberFormatException e) {
                     System.out.println("BAD_REQUEST " + e.getMessage());
                 } catch (SQLException e) {
-                    System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+                    mostrarMensaje(labels.getString("SQLException"));
                 } catch (Exception e) {
                     System.out.println("ERROR " + e.getMessage());
                 }
@@ -1616,7 +1613,7 @@ public class FrmPanel extends JFrame {
     }
 
     private void btnRegPedidoActionPerformed(ActionEvent actionEvent) {
-        String duenio = usuario.getDocumento();
+        String duenio = DocUsuario;
         String plastico = txtPlastico.getText();
         String papel = txtPapel.getText();
         String vidrio = txtVidrio.getText();
@@ -1629,9 +1626,9 @@ public class FrmPanel extends JFrame {
                  DuenioIdNotFoundException | PersonalIdNotFoundException | NumberFormatException e) {
             System.out.println("BAD_REQUEST " + e);
         } catch (SQLException e) {
-            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -1645,19 +1642,17 @@ public class FrmPanel extends JFrame {
             desp.registrarDuenio(nombre, apellido, documento, correo, telefono);
             mostrarMensaje(labels.getString("regDuenio.Ok") + nombre + " " + apellido);
             txtDocVivienda.setText(documento);
-            usuario.setDocumento(documento);
+            DocUsuario = documento;
             menuViviendaMouseClicked();
         } catch (DuenioFieldInvalidException e) {
             mostrarMensaje(labels.getString("regDuenio.DFIException") + e.getMessage());
         } catch (SQLException e) {
-            if (e.getMessage().contains("Duplicate entry")) {
+            if (e.getMessage().contains("Duplicate entry"))
                 mostrarMensaje(labels.getString("regDuenio.SQLExceptionDE"));
-            } else {
-                mostrarMensaje(labels.getString("regDuenio.SQLException"));
-            }
+            else mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            mostrarMensaje(labels.getString("regDuenio.Exception"));
-            System.out.println(e.getMessage());
+            mostrarMensaje(labels.getString("Exception"));
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -1679,16 +1674,16 @@ public class FrmPanel extends JFrame {
         try {
             var txt = desp.listarOrdenesMC(txtDocMC.getText());
             if (txt.isEmpty()) {
-                mostrarMensaje("No se encontraron órdenes de visita\n pendientes para éste usuario");
+                mostrarMensaje(labels.getString("msjOrdenesNoEncontradas"));
             } else {
                 mostrarMensaje(txt);
             }
         } catch (OrdenFieldInvalidException e) {
             System.out.println("BAD_REQUEST " + e);
         } catch (SQLException e) {
-            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -1759,12 +1754,12 @@ public class FrmPanel extends JFrame {
     }
 
     private void imgModificar(JButton boton) {
-        boton.setText("Modificar");
+        boton.setText(labels.getString("msjTxtModificar"));
         boton.setIcon(icoModificar);
     }
 
     private void imgRegistrar(JButton boton) {
-        boton.setText("Registrar");
+        boton.setText(labels.getString("msjTxtRegistrar"));
         boton.setIcon(icoGuardar);
     }
 
@@ -1806,7 +1801,7 @@ public class FrmPanel extends JFrame {
 
     private void listarDuenio() {
         try {
-            DuenioDto d = desp.listarDuenioPorId(usuario.getDocumento());
+            DuenioDto d = desp.listarDuenioPorId(DocUsuario);
             txtNomDuenio.setText(d.getNomDuenio());
             txtApeDuenio.setText(d.getApeDuenio());
             txtDocDuenio.setText(d.getDocDuenio());
@@ -1816,9 +1811,9 @@ public class FrmPanel extends JFrame {
         } catch (DuenioIdNotFoundException e) {
             System.out.println("BAD_REQUEST " + e);
         } catch (SQLException e) {
-            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -1845,9 +1840,9 @@ public class FrmPanel extends JFrame {
             tblInscripciones.setModel(tabla);
             color(tblInscripciones);
         } catch (SQLException e) {
-            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -1874,9 +1869,9 @@ public class FrmPanel extends JFrame {
             tblInscripciones.setModel(tabla);
             color(tblInscripciones);
         } catch (SQLException e) {
-            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -1903,9 +1898,9 @@ public class FrmPanel extends JFrame {
             tblOrdenes.setModel(tabla);
             color(tblOrdenes);
         } catch (SQLException e) {
-            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -1934,9 +1929,9 @@ public class FrmPanel extends JFrame {
         } catch (NumberFormatException e) {
             System.out.println("BAD_REQUEST " + e);
         } catch (SQLException e) {
-            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -1956,9 +1951,9 @@ public class FrmPanel extends JFrame {
             tblPersonal.setModel(tabla);
             color(tblPersonal);
         } catch (SQLException e) {
-            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -1977,14 +1972,14 @@ public class FrmPanel extends JFrame {
             tblInscripciones.setModel(tabla);
             color(tblInscripciones);
         } catch (SQLException e) {
-            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
     private void listarPuntosMC() {
-        String id = usuario.getDocumento();
+        String id = DocUsuario;
         txtDocMC.setText(id);
 
         try {
@@ -1994,9 +1989,9 @@ public class FrmPanel extends JFrame {
         } catch (PersonalIdNotFoundException e) {
             System.out.println("BAD_REQUEST " + e);
         } catch (SQLException e) {
-            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -2020,27 +2015,26 @@ public class FrmPanel extends JFrame {
         } catch (PersonalIdNotFoundException e) {
             System.out.println("BAD_REQUEST " + e);
         } catch (SQLException e) {
-            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
     private void listarVivienda() {
-        if (!usuario.getDocumento().isEmpty()) {
+        if (!DocUsuario.isEmpty()) {
             try {
-                ViviendaDto v = desp.listarViviendaPorId(usuario.getDocumento());
+                ViviendaDto v = desp.listarViviendaPorId(DocUsuario);
                 txtDirVivienda.setText(v.getDireccion());
                 txtZonaVivienda.setText(v.getZona());
                 txtBarrioVivienda.setText(v.getBarrio());
             } catch (ViviendaIdNotFoundException e) {
                 System.out.println("BAD_REQUEST " + e);
             } catch (SQLException e) {
-                System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+                mostrarMensaje(labels.getString("SQLException"));
             } catch (Exception e) {
-                System.out.println("ERROR " + e);
+                System.out.println("ERROR " + e.getMessage());
             }
-//            mostrarMensaje("Problemas al recuperar datos de dirección.");
         }
     }
 
@@ -2063,7 +2057,7 @@ public class FrmPanel extends JFrame {
     private void modificarInscripcion() {
         String id = txtIdInsc.getText();
         if (id.isEmpty()) {
-            mostrarMensaje("Debe seleccionar alguna inscripción");
+            mostrarMensaje(labels.getString("msjModInscripcion"));
             return;
         }
         String nombre = txtNomInsc.getText();
@@ -2079,9 +2073,9 @@ public class FrmPanel extends JFrame {
         } catch (InscripcionFieldInvalidException | DuenioIdNotFoundException | NumberFormatException e) {
             System.out.println("BAD_REQUEST " + e.getMessage());
         } catch (SQLException e) {
-            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -2109,11 +2103,11 @@ public class FrmPanel extends JFrame {
                 if (e.getMessage().contains("Duplicate entry")) {
                     mostrarMensaje(labels.getString("regPersonal.SQLExceptionDE"));
                 } else {
-                    mostrarMensaje(labels.getString("regPersonal.SQLException"));
+                    mostrarMensaje(labels.getString("SQLException"));
                 }
             } catch (Exception e) {
-                mostrarMensaje(labels.getString("regPersonal.Exception"));
-                System.out.println("Error inesperado: " + e.getMessage());
+                mostrarMensaje(labels.getString("Exception"));
+                System.out.println("ERROR " + e.getMessage());
             }
         } else {
             try {
@@ -2122,9 +2116,9 @@ public class FrmPanel extends JFrame {
             } catch (PersonalFieldInvalidException | PersonalIdNotFoundException | NumberFormatException e) {
                 System.out.println("BAD_REQUEST " + e);
             } catch (SQLException e) {
-                System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+                mostrarMensaje(labels.getString("SQLException"));
             } catch (Exception e) {
-                System.out.println("ERROR " + e);
+                System.out.println("ERROR " + e.getMessage());
             }
         }
         limpiarPersonal();
@@ -2132,7 +2126,7 @@ public class FrmPanel extends JFrame {
     }
 
     private void registrarVivienda() {
-        String documento = usuario.getDocumento();
+        String documento = DocUsuario;
         String direccion = txtDirVivienda.getText();
         String zona = txtZonaVivienda.getText();
         String barrio = txtBarrioVivienda.getText();
@@ -2146,7 +2140,7 @@ public class FrmPanel extends JFrame {
                  NumberFormatException | UbicacionFieldInvalidException | UbicacionEntityExistsException e) {
             System.out.println("BAD_REQUEST " + e.getMessage());
         } catch (SQLException e) {
-            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
             System.out.println("ERROR " + e.getMessage());
         }
@@ -2158,16 +2152,16 @@ public class FrmPanel extends JFrame {
         String barrio = txtBarrioVivienda.getText();
         try {
             UbicacionDto ubicacion = desp.validarUbicacion(documento, direccion, barrio);
-            mostrarMensaje("Ubicación hallada");
+            mostrarMensaje(labels.getString("msjValidarUbicacion"));
             txtDirVivienda.setEnabled(false);
             txtZonaVivienda.setEnabled(false);
             txtBarrioVivienda.setEnabled(false);
             txtUbicacion.setText(String.format("%s : %s", ubicacion.getLatitud(), ubicacion.getLongitud()));
-            btnRegVivienda.setText("Registrar Vivienda");
+            btnRegVivienda.setText(labels.getString("tabVivienda.BtnRegistrarVivienda"));
         } catch (DuenioIdNotFoundException | UbicacionFieldInvalidException e) {
-            System.out.println("BAD_REQUEST " + e.getMessage());
+            mostrarMensaje(labels.getString("SQLException"));
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 

@@ -1,7 +1,6 @@
 package daos;
 
 import api.Conexion;
-import dtos.DuenioDto;
 import entities.Duenio;
 
 import java.sql.Connection;
@@ -29,15 +28,15 @@ public class DuenioDao {
         }
     }
 
-    public DuenioDto listarPorId(String dni) throws SQLException {
-        DuenioDto d = null;
+    public Duenio listarPorId(String dni) throws SQLException {
+        Duenio d = null;
         con = cn.getConnection();
         String sql = "SELECT * FROM duenio WHERE dni_duenio = ?";
         ps = con.prepareStatement(sql);
         ps.setString(1, dni);
         rs = ps.executeQuery();
         while (rs.next()) {
-            d = new DuenioDto(
+            d = new Duenio(
                     rs.getString("dni_duenio"),
                     rs.getString("nom_duenio"),
                     rs.getString("ape_duenio"),
@@ -69,34 +68,34 @@ public class DuenioDao {
         return lista;
     }
 
-    public void modificar(String nombre, String apellido, String dni, String correo, String telefono) throws SQLException {
+    public void modificar(Duenio d) throws SQLException {
         String sql = "UPDATE duenio SET nom_duenio=?, ape_duenio=?, correo=?, telefono=? WHERE dni_duenio=?";
         con = cn.getConnection();
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, nombre);
-            ps.setString(2, apellido);
-            ps.setString(3, correo);
-            ps.setString(4, telefono);
-            ps.setString(5, dni);
+            ps.setString(1, d.getNomDuenio());
+            ps.setString(2, d.getApeDuenio());
+            ps.setString(3, d.getCorreoDuenio());
+            ps.setString(4, d.getTelDuenio());
+            ps.setString(5, d.getDocDuenio());
             ps.execute();
         } finally {
             cn.getClose();
         }
     }
 
-    public boolean registrar(String nombre, String apellido, String dni, String correo, String telefono) throws SQLException {
+    public boolean registrar(Duenio d) throws SQLException {
         String sql = "INSERT INTO duenio (dni_duenio, nom_duenio, ape_duenio, correo, " +
                 "telefono) VALUES (?,?,?,?,?)";
         con = cn.getConnection();
         boolean res = false;
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, dni);
-            ps.setString(2, nombre);
-            ps.setString(3, apellido);
-            ps.setString(4, correo);
-            ps.setString(5, telefono);
+            ps.setString(1, d.getDocDuenio());
+            ps.setString(2, d.getNomDuenio());
+            ps.setString(3, d.getApeDuenio());
+            ps.setString(4, d.getCorreoDuenio());
+            ps.setString(5, d.getTelDuenio());
             ps.execute();
             res = true;
         } finally {

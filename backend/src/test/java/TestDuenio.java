@@ -3,7 +3,6 @@ import dtos.DuenioDto;
 import exceptions.DuenioFieldInvalidException;
 import exceptions.DuenioIdNotFoundException;
 import org.junit.jupiter.api.Test;
-import test.Respuesta;
 
 import java.sql.SQLException;
 
@@ -36,7 +35,7 @@ public class TestDuenio {
         } catch (SQLException e) {
             System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
         } catch (Exception e) {
-            System.out.println("ERROR " + e);
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 
@@ -53,7 +52,7 @@ public class TestDuenio {
                 System.out.println("Error de conexión SQL: " + e);
             }
         } catch (Exception e) {
-            System.out.println("Error inesperado: " + e.getMessage());
+            System.out.println("ERROR " + e.getMessage());
         }
     }
 }

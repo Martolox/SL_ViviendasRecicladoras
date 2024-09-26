@@ -1,7 +1,6 @@
 package daos;
 
 import api.Conexion;
-import dtos.CampaniaDto;
 import entities.Campania;
 
 import java.sql.Connection;
@@ -32,15 +31,15 @@ public class CampaniaDao {
         }
     }
 
-    public CampaniaDto listarPorId(String id) throws SQLException {
-        CampaniaDto c = null;
+    public Campania listarPorId(String id) throws SQLException {
+        Campania c = null;
         con = cn.getConnection();
         String sql = "SELECT * FROM campania WHERE id_campania = ?";
         ps = con.prepareStatement(sql);
         ps.setString(1, id);
         rs = ps.executeQuery();
         while (rs.next()) {
-            c = new CampaniaDto(rs.getString("dni_duenio"),
+            c = new Campania(rs.getString("dni_duenio"),
                     rs.getInt("puntos"),
                     rs.getString("benef_activos"));
         }
