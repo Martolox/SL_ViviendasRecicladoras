@@ -2,9 +2,9 @@ package resources;
 
 import controllers.ControladorDuenio;
 import dtos.DuenioDto;
-import exceptions.DuenioEntityExistsException;
 import exceptions.DuenioFieldInvalidException;
 import exceptions.DuenioIdNotFoundException;
+import exceptions.PersonalFieldInvalidException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -35,30 +35,26 @@ public class RecursoDuenio {
 
     public void registrar(String nombre, String apellido, String dni, String correo, String telefono) throws SQLException {
         validarCampos(nombre, apellido, dni, correo, telefono);
-        if (!new ControladorDuenio().registrar(nombre, apellido, dni, correo, telefono)) {
-            throw new DuenioEntityExistsException(dni);
-        }
+        new ControladorDuenio().registrar(nombre, apellido, dni, correo, telefono);
     }
 
-    private void validarCampos(String nombre, String apellido, String dni, String correo, String telefono) throws NumberFormatException {
-        if (nombre == null || nombre.isEmpty()) {
-            throw new DuenioFieldInvalidException("nombre");
-        }
-        if (apellido == null || apellido.isEmpty()) {
-            throw new DuenioFieldInvalidException("apellido");
-        }
-        if (dni == null || dni.isEmpty() || dni.length() > 8) {
-            throw new DuenioFieldInvalidException("documento");
-        }
-        if (!correo.isEmpty()) {
-            if (!correo.contains("@")) throw new DuenioFieldInvalidException("correo");
-        }
-        if (telefono.length() > 10) {
-            throw new DuenioFieldInvalidException("telefono");
-        }
+    private void validarCampos(String nombre, String apellido, String dni, String correo, String telefono) {
+        if (nombre == null || nombre.isEmpty()) throw new DuenioFieldInvalidException("nombre");
+        if (apellido == null || apellido.isEmpty()) throw new DuenioFieldInvalidException("apellido");
+        if (dni == null || dni.isEmpty() || dni.length() > 8) throw new DuenioFieldInvalidException("documento");
+        if (!correo.isEmpty()) if (!correo.contains("@")) throw new DuenioFieldInvalidException("correo");
+        if (telefono.length() > 10) throw new DuenioFieldInvalidException("telefono");
         if (!telefono.isEmpty()) {
-            Long.parseLong(telefono);
+            try {
+                Long.parseLong(telefono);
+            } catch (NumberFormatException e) {
+                throw new DuenioFieldInvalidException("telefono debe ser numérico");
+            }
         }
-        Integer.parseInt(dni);
+        try {
+            Integer.parseInt(dni);
+        } catch (NumberFormatException e) {
+            throw new PersonalFieldInvalidException("documento debe ser numérico");
+        }
     }
 }

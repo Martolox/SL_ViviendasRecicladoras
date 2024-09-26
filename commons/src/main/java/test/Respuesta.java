@@ -1,4 +1,4 @@
-package entities;
+package test;
 
 public class Respuesta {
     private String estado;

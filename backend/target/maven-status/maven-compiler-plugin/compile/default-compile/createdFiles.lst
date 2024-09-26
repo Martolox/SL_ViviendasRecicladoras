@@ -1,6 +1,5 @@
 controllers\ControladorInscripcion.class
 controllers\ControladorPersonal.class
-api\Resource2.class
 daos\InscripcionDao.class
 controllers\ControladorVisita.class
 controllers\ControladorDuenio.class
@@ -16,7 +15,6 @@ daos\OrdenDao.class
 api\Despachador.class
 api\ServidorAPI.class
 resources\RecursoDuenio.class
-api\Resource1.class
 daos\ViviendaDao.class
 api\GestorConexion.class
 daos\PersonalDao.class

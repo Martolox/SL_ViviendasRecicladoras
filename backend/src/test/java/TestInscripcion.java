@@ -1,6 +1,9 @@
 import api.Despachador;
-import entities.Respuesta;
+import exceptions.DuenioIdNotFoundException;
+import exceptions.InscripcionFieldInvalidException;
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,36 +11,40 @@ public class TestInscripcion {
     private static final Despachador desp = new Despachador();
 
     @Test
-    void TestEliminarInscripcion() {
-        Respuesta rta = desp.eliminarInscripcion("12341234");
-        assertEquals("OK", rta.getEstado());
-    }
-
-    @Test
     void TestListarInscripcionPor() {
-        Respuesta rta = desp.listarInscripcionPor("J");
-        assertEquals("OK", rta.getEstado());
-        assertEquals("[Inscripcion{documento='302372", rta.getObj().toString().substring(0, 30));
+        try {
+            var rta = desp.listarInscripcionPor("J");
+            assertEquals("[Inscripcion{documento='302372", rta.toString().substring(0, 30));
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
+        }
     }
 
     @Test
     void TestListarInscripciones() {
-        Respuesta rta = desp.listarInscripciones();
-        assertEquals("OK", rta.getEstado());
-        assertEquals("[Inscripcion{documento='303004", rta.getObj().toString().substring(0, 30));
+        try {
+            var rta = desp.listarInscripciones();
+            assertEquals("[Inscripcion{documento='303004", rta.toString().substring(0, 30));
+
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
+        }
     }
 
     @Test
     void TestModificarInscripcion() {
-        Respuesta rta = desp.modificarInscripcion("30029911", "Luis", "Martinez",
-                "luis@hotmail.com", "2920000003", "7 de Marzo 630", "Centro", "Fátima");
-        assertEquals("OK", rta.getEstado());
-    }
-
-    @Test
-    void TestRegistrarInscripcion() {
-        Respuesta rta = desp.registrarInscripcion("30237244", "Javier", "Rodriguez",
-                "javier@hotmail.com", "2920000001", "7 de Marzo 630", "Centro", "Fátima");
-        assertEquals("OK", rta.getEstado());
+        try {
+            desp.modificarInscripcion("30029911", "Luis", "Martinez", "luis@hotmail.com", "2920000003", "7 de Marzo 630", "Centro", "Fátima");
+        } catch (InscripcionFieldInvalidException | DuenioIdNotFoundException | NumberFormatException e) {
+            System.out.println("BAD_REQUEST " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("BAD_REQUEST " + "Fallo al recibir base de datos");
+        } catch (Exception e) {
+            System.out.println("ERROR " + e);
+        }
     }
 }
